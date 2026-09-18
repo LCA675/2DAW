@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+</head>
+
+<body>
+    <h1>Examen inicial</h1>
+
+    <form>
+        <button onclick="suma">Calcular </button>
+        <input type="number" id="num1">
+        <label for="">+</label>
+        <input type="number" id="num2">
+        <label for="">=</label>
+        <input type="number" id="resul" disabled>
+
+        <br><br>
+        <button onclick="operacion">Calcular </button>
+        <input type="number" id="num3">
+        <select name="operador" id="operador">
+            <option value="1">+</option>
+            <option value="2">-</option>
+            <option value="3">*</option>
+            <option value="4">/</option>
+        </select>
+        <input type="number" id="num4">
+        <label for="">=</label>
+        <input type="number" id="resul1" disabled>
+
+        <br><br>
+
+        <button>Calcular </button>
+        <input type="number" id="num5">
+
+
+        <label>
+            <input type="radio" name="operador" value="1"> +
+        </label>
+
+        <label>
+            <input type="radio" name="operador" value="2"> -
+        </label>
+
+        <label>
+            <input type="radio" name="operador" value="3"> *
+        </label>
+
+        </select>
+        <input type="number" id="num6">
+
+        <label for="">=</label>
+        <input type="number" id="resul" disabled>
+
+
+    </form>
+
+    <script>
+
+        function suma() {
+            let resul = document.getElementById("resul");
+            resul.value = document.getElementById(num1) + document.getElementById(num2);
+        }
+
+        function operacion() {
+            let resul = document.getElementById("resul").value;
+            let operador = document.getElementById("operador").value;
+            if (operador == 1){
+                resul.value = document.getElementById(num3) + document.getElementById(num4);
+            }
+             if (operador == 2){
+                resul.value = document.getElementById(num3) - document.getElementById(num4);
+            }
+             if (operador == 3){
+                resul.value = document.getElementById(num3) * document.getElementById(num4);
+            }
+             if (operador == 4){
+                resul.value = document.getElementById(num3) / document.getElementById(num4);
+            }
+        }
+
+
+    </script>
+
+
+</body>
+
+</html>
