@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 6</title>
+</head>
+
+<body>
+
+    <img src="illojuan.jpg" id="illojuan" width="80">
+
+    <br><br>
+
+    
+    <label for="">Ancho (Añadir px al final sin espacios)</label>
+    <input type="text" id="ancho">
+    <br><br>
+    <label for="">Alto (Añadir px al final sin espacios)</label>
+    <input type="text" id="alto">
+    <br><br>
+    <button onclick="redimensionar()">Redimensionar </button>
+
+    <br><br>
+
+    <button onclick="reestablecer()">Reestablecer</button>
+
+</body>
+
+<script>
+    function reestablecer() {
+        //En una variable metemos la imagen
+        let imagen = document.getElementById("illojuan");
+        //Ahora con la variable imagen le asignaremos las propiedades de ancho y alto determinadas
+        imagen.style.width = "100%";
+        imagen.style.height = "100%";
+    }
+
+    function redimensionar() {
+        //En una variable metemos la imagen
+        let imagen = document.getElementById("illojuan");
+        //Sacamos el ancho y el alto a traves de la ID para saber que valores redimensionar 
+        let ancho = document.getElementById("ancho").value;
+        let alto = document.getElementById("alto").value;
+
+
+        //Ahora con la variable imagen le asignaremos las propiedades de ancho y alto determinadas
+        imagen.style.height = alto;
+
+        imagen.style.width = ancho;
+    }
+</script>
+
+</html>
