@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 5</title>
+</head>
+<body>
+
+    <img src="illojuan.jpg" id="illojuan" width="80">
+
+    <br><br>
+
+    <button onclick="reestablecer()">Reestablecer</button>
+    
+</body>
+
+<script>
+    function reestablecer(){
+        //En una variable metemos la imagen
+        let imagen = document.getElementById("illojuan");
+        //Ahora con la variable imagen le asignaremos las propiedades de ancho y alto determinadas
+        imagen.style.width = "100%";
+    }
+</script>
+</html>
