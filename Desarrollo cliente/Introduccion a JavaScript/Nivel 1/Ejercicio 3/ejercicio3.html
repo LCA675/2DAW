@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 3</title>
+</head>
+
+<body>
+    //Hacemos un input para introducir el primer numero
+    <input type="text" id="num1">
+
+    <br><br>
+//Hacemos un input para introducir el segundo numero
+    <input type="text" id="num2">
+
+    <br><br>
+    //Hacemos el boton para llamar a la funcion de suma
+    <button onclick="suma()">Calcular</button>
+
+</body>
+<script>
+    function suma() {
+        let resul = 0;
+        //Sacamos el num1 y el num2 a traves de la ID para saber que numeros sumar
+        let num1 = document.getElementById("num1").value;
+        let num2 = document.getElementById("num2").value;
+        //Sumamos los numeros y lo almacenamos en resul
+        resul = parseInt(num1) + parseInt(num2);
+        //mostamos el resultado con una alerta
+        alert(`Resultado: ${resul}`);
+    }
+
+</script>
+
+</html>
