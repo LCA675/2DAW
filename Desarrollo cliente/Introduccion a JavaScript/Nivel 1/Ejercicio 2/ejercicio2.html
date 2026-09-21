@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+</head>
+
+<body>
+
+
+    <button onclick="tabla()">Llamar</button>
+
+    <br><br>
+
+
+</body>
+
+<script>
+
+    function tabla() {
+        // En una variable almacenamos la referencia del body del html
+        //El 0 indica el numero de elemento que vamos a coger, como solo hay 1
+        //cogemos el 0
+        // El getElementsByTagName es para encontrar elementos a partir de su etiqueta
+        let body = document.getElementsByTagName("body")[0];
+
+
+        //Aqui creamos una variable tabla para que guarde el elemento nuevo table
+
+        let tabla = document.createElement("table");
+
+        //Aqui creamos una variable donde guardaremos el elemento tbody, el cuerpo de la tabla
+        let tablaBody = document.createElement("tbody");
+
+        //Creamos la variable para añadir la cadena de caracteres donde ira el color de la tabla
+        let color = "color: blue; font-size: 12px;";
+
+
+
+        //hacemos un bucle para crear las columnas de la tabla
+        for (let i = 1; i <= 2; i++) {
+            let columna = document.createElement("tr");
+            //hacemos un bucle para crear las filas de la tabla
+            for (let o = 1; o <= 1; o++) {
+                let fila = document.createElement("td");
+                fila.textContent= `Fila ${i}`;
+                fila.style.cssText = color;
+                //Añadimos las filas a cada columna
+                columna.appendChild(fila);
+            }
+            //Añadimos las columnas con las filas a el cuerpo de la tabla
+            tablaBody.appendChild(columna);
+
+        }
+        //Añadimos el cuerpo de la tabla a el elemento tabla
+        tabla.appendChild(tablaBody);
+        //Añadimos la tabla con todos los elementos creados al body
+        body.appendChild(tabla);
+        
+        tabla.setAttribute("border", "2")
+    }
+
+</script>
+
+</html>
