@@ -1,4 +1,4 @@
-/*
+excusa_entregaemployees/*
 *********************************************************************
 http://www.mysqltutorial.org
 *********************************************************************
@@ -7924,7 +7924,7 @@ insert  into `products`(`productCode`,`productName`,`productLine`,`productScale`
 
 ('S72_3212','Pont Yacht','Ships','1:72','Unimax Art Galleries','Measures 38 inches Long x 33 3/4 inches High. Includes a stand.\r\nMany extras including rigging, long boats, pilot house, anchors, etc. Comes with 2 masts, all square-rigged',414,'33.30','54.60');
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40101 employeesSET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
