@@ -5,6 +5,12 @@
         <title>Ejercicio 13 - DOM básico y atributos XHTML</title>
 
         <script type="text/javascript">
+            function anade(){
+                let li = document.createElement('li');
+                let lista = document.getElementById('lista');
+                li.textContent = "Texto nuevo";
+                lista.appendChild(li);
+            }
             
         </script>
     </head>
@@ -19,7 +25,7 @@
             <li>Maecenas nisl arcu</li>
         </ul>
 
-        <input type="button" id="btAnade" value="Añadir elemento">
+        <input type="button" id="btAnade" value="Añadir elemento" onclick="anade()">
 
     </body>
 </html>
