@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w3.org">
+<html xmlns="http://w3.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Ejercicio 15 - Base Inicial</title>
+    <style type="text/css">
+        body {
+            font-family: arial, helvetica;
+        }
+
+        #info,
+        #info1,
+        #info2 {
+            width: 160px;
+            border: thin solid silver;
+            padding: .5em;
+            position: fixed;
+            background-color: #fcfcfc;
+        }
+
+        #info h1,
+        #info1 h1,
+        #info2 h1 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+    </style>
+    <script type="text/javascript">
+        // añadimos el window onload para que se ejecute siempre la ufncion
+        window.onload = function () {
+            document.onmousemove = function (coordenadas) {
+                
+                // APARTADO 1
+
+                // Sacamos las coordenadas  del raton segun a la ventana
+                let xNav = coordenadas.clientX;
+                let yNav = coordenadas.clientY;
+                //  Sacamos las coordenadas  del raton segun a la pagina completa
+                let xPag = coordenadas.pageX;
+                let yPag = coordenadas.pageY;
+                // Mostramos en la pagina las coordenadas que hemos sacado, tanto la del navegador como la de la pagina
+                // en los respectivos ps de cada uno
+                document.getElementById("navegador").innerHTML = "Navegador [" + xNav + ", " + yNav + "]";
+                document.getElementById("pagina").innerHTML = "Página [" + xPag + ", " + yPag + "]";
+
+                // APARTADO 3
+                // aqui en esta linea asignamos le color blanco al fondo cada vez que se mueve el raton
+                document.getElementById("info1").style.backgroundColor = "white";
+                document.getElementById("info2").style.backgroundColor = "white";
+                document.addEventListener("click", (event) => {
+                    // aqui en esta linea asignamos le color amarillo al fondo cada vez que se pulsamos click
+                    document.getElementById("info1").style.backgroundColor = "#FFFFCC";
+                });
+
+            };
+
+            // APARTADO 2
+
+            let tecla = "";
+            let teclaCodigo = 0;
+
+
+            // Usamos el addeventlistener para saber los eventos que pasa del teclado
+            document.addEventListener("keydown", (event) => {
+                // aqui en esta linea asignamos le color azul al fondo cada vez que se pulsa una tecla
+                document.getElementById("info2").style.backgroundColor = "#CCE6FF";
+                // guardamos en tecla la letra o numero que se ha pulsado
+                tecla = event.key;
+                // y aqui guardamos el codigo de la tecla pulsada
+                teclaCodigo = event.keyCode;
+                // Mostramos en la pagina la tecla y el codigo 
+                document.getElementById("tecla").innerHTML = "Tecla: " + tecla;
+                document.getElementById("codigo").innerHTML = "Codigo: " + teclaCodigo;
+            })
+
+
+
+
+        };
+
+    </script>
+</head>
+
+<body>
+    <div id="info">
+        <h1>Información</h1>
+        <p>Mueve el ratón o pulsa una tecla para ver los detalles del evento.</p>
+    </div>
+    <br><br><br><br><br><br><br><br><br>
+    <div id="info1">
+        <h1>Ratón</h1>
+        <p id="navegador">Navegador [0, 0]</p>
+        <p id="pagina">Página [0, 0]</p>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br>
+
+    <div id="info2">
+        <h1>Teclado</h1>
+        <p id="tecla">Tecla: </p>
+        <p id="codigo">Codigo: </p>
+    </div>
+
+    <div style="height: 1000px;"></div> <!-- Espacio para poder hacer scroll y probar pageX/pageY -->
+</body>
+
+</html>

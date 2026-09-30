@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w3.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Ejercicio 16 - Zonas de la pantalla</title>
+    <style type="text/css">
+        body {
+            font-family: arial, helvetica;
+            margin: 0;
+            padding: 0;
+        }
+
+        #info {
+            width: 200px;
+            border: thin solid silver;
+            padding: .5em;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: #fcfcfc;
+        }
+
+        #info h1 {
+            margin: 0;
+            font-size: 1.1em;
+        }
+    </style>
+    <script type="text/javascript">
+
+        function examinaPantalla(elEvento) {
+
+            // Sacamos las coordenadas  donde se ha hecho click
+            let x = elEvento.clientX;
+            let y = elEvento.clientY;
+
+            // calculamos la mitad de la ventana del navegador
+            let mitadAncho = window.innerWidth / 2;
+            let mitadAlto = window.innerHeight / 2;
+            let mensaje = "";
+
+            // Comprobamos si el click se ha realizado en la zona superior izquierda
+            if (x < mitadAncho && y < mitadAlto) {
+                mensaje = "Izquierda arriba";
+            } else if (x < mitadAncho && y >= mitadAlto) {  // Comprobamos si es la zona inferior izquierda
+                mensaje = "Izquierda abajo";
+            } // Comprobamos si es la zona superior derecha
+            else if (x >= mitadAncho && y < mitadAlto) {
+                mensaje = "Derecha arriba";
+            } else { // la ultima opcion que queda es en la zona derecha inferior 
+                mensaje = "Derecha abajo";
+            }
+            // Mostramos en el div info la zona donde se ha realizado el clic
+            document.getElementById("info").innerHTML =
+                "<h1>Zonas de pantalla</h1><p>" + mensaje + "</p>";
+        }
+
+        window.onload = function () {
+            // cada vez que se hace un click llamamos a la funcion examinapantalla
+            document.onclick = examinaPantalla;
+
+        }
+    </script>
+</head>
+
+<body>
+    <div id="info">
+        <h1>Zonas de pantalla</h1>
+        <p>Haz clic en cualquier parte de la ventana para averiguar en qué cuadrante estás pulsando.</p>
+    </div>
+</body>
+
+</html>
