@@ -1,16 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://w3.org">
 <html xmlns="http://w3.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>Ejercicio 14 - Base Inicial</title>
     <style type="text/css">
         body {
             font-family: Arial, Helvetica, sans-serif;
             margin: 20px;
         }
+
         p {
             margin-top: 0;
         }
+
         .seccion {
             border: 1px solid #ccc;
             background-color: #fafafa;
@@ -31,20 +33,17 @@
             let a = seccion.querySelector('a');
             // Hacemos un if para ver si esta ocultaddo o no el enlace si lo esta, al pulsarse se muestra
             // y si no lo esta se oculta
-            if (document.getElementById("contenidos_1").style.display == ""){
+            if (document.getElementById("contenidos_1").style.display == "") {
                 document.getElementById("contenidos_1").style.display = "none"
                 // Aqui cambiamos el texto del enlace
                 a.innerHTML = "Ocultado";
-            } else if (document.getElementById("contenidos_1").style.display == "none"){
+            } else if (document.getElementById("contenidos_1").style.display == "none") {
                 document.getElementById("contenidos_1").style.display = "";
                 // Aqui cambiamos el texto del enlace
                 a.innerHTML = "Ocultar contenidos";
             }
 
-            
-
-            
-            
+serverlcalang765
         }
 
     </script>
@@ -54,7 +53,9 @@
 <!-- Sección 1 -->
 <div class="seccion">
     <div id="contenidos_1">
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas nisl arcu, consequat congue, commodo ac, consequat vitae, turpis. Aliquam elit. Mauris egestas pede sit amet lectus.
+        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed mattis enim vitae orci. Phasellus libero. Maecenas
+        nisl arcu, consequat congue, commodo ac, consequat vitae, turpis. Aliquam elit. Mauris egestas pede sit amet
+        lectus.
     </div>
     <!-- Añadimos el onclick en las 3 secciones para que al pulsarse se ejecute la funcion -->
     <a id="enlace_1" href="#" onclick="muestraOculta()">Ocultar contenidos</a>
@@ -63,7 +64,8 @@
 <!-- Sección 2 -->
 <div class="seccion">
     <div id="contenidos_2">
-        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut varius tincidunt libero. Phasellus dolor. Maecenas vestibulum mollis diam. Pellentesque ut neque.
+        Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Fusce id purus. Ut
+        varius tincidunt libero. Phasellus dolor. Maecenas vestibulum mollis diam. Pellentesque ut neque.
     </div>
     <a id="enlace_2" href="#" onclick="muestraOculta()">Ocultar contenidos</a>
 </div>
@@ -71,7 +73,8 @@
 <!-- Sección 3 -->
 <div class="seccion">
     <div id="contenidos_3">
-        Aliquam non ac, feugiat in, ante. In id eros. Suspendisse ipsum. Proin tristique luctus tellus. Sed porttitor magna vitae nunc. Proin scelerisque sem non mollis laoreet.
+        Aliquam non ac, feugiat in, ante. In id eros. Suspendisse ipsum. Proin tristique luctus tellus. Sed porttitor
+        magna vitae nunc. Proin scelerisque sem non mollis laoreet.
     </div>
     <a id="enlace_3" href="#" onclick="muestraOculta()">Ocultar contenidos</a>
 </div>
