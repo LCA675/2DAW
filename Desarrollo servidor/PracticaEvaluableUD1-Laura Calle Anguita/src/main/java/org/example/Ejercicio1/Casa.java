@@ -10,4 +10,28 @@ public class Casa {
         this.tejado = tejado;
         this.paredes = paredes;
     }
+
+    public double getArea() {
+        return area;
+    }
+
+    public void setArea(double area) {
+        this.area = area;
+    }
+
+    public Tejado getTejado() {
+        return tejado;
+    }
+
+    public void setTejado(Tejado tejado) {
+        this.tejado = tejado;
+    }
+
+    public Pared[] getParedes() {
+        return paredes;
+    }
+
+    public void setParedes(Pared[] paredes) {
+        this.paredes = paredes;
+    }
 }
