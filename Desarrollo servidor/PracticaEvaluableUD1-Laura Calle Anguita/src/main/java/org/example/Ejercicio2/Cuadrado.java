@@ -7,6 +7,6 @@ public class Cuadrado extends Figura{
 
     @Override
     public void dibujarFigura() {
-        System.out.println("Cuadrado de color"+this.color);
+        System.out.println("Cuadrado de color "+this.color);
     }
 }

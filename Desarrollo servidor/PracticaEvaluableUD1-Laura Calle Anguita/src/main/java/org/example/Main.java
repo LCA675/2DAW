@@ -36,6 +36,7 @@ public class Main {
                     Casa casa1 = new Casa(120,tejado,paredes);
 
                     System.out.println("Area casa: "+casa1.getArea());
+                    System.out.println("");
                     break;
                 case 2:
 
@@ -49,7 +50,7 @@ public class Main {
                     circulo.dibujarFigura();
                     cuadrado.dibujarFigura();
                     rectangulo.dibujarFigura();
-
+                    System.out.println("");
 
                     break;
                 case 3:

@@ -7,6 +7,6 @@ public class Circulo extends Figura{
 
     @Override
     public void dibujarFigura() {
-        System.out.println("Circulo de color"+this.color);
+        System.out.println("Circulo de color "+this.color);
     }
 }

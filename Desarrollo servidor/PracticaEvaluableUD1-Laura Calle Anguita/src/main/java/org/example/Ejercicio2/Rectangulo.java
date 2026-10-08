@@ -8,6 +8,6 @@ public class Rectangulo extends Figura{
 
     @Override
     public void dibujarFigura() {
-        System.out.println("Rectangulo de color"+this.color);
+        System.out.println("Rectangulo de color "+this.color);
     }
 }

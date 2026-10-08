@@ -9,6 +9,6 @@ public class Triangulo extends Figura{
 
     @Override
     public void dibujarFigura() {
-        System.out.println("Triangulo de color"+this.color);
+        System.out.println("Triangulo de color "+this.color);
     }
 }
