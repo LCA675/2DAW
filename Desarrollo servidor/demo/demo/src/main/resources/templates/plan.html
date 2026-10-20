@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan de estudios - Laura Calle Anguita</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            padding: 20px;
+        }
+
+        main {
+            max-width: 650px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        header {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+
+        .asignatura{
+            display: flex;
+            gap: 10px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        .lista {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .asignatura {
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .info {
+            align-items: center;
+        }
+
+        section {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .asignatura {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <!-- muestra el nombre que se recibe -->
+        <h1 th:text="|Hola, ${nombre}!|">Hola, estudiante!</h1>
+        <p>Mi plan de estudio de hoy</p>
+    </header>
+    <section>
+        <span>Total de asignaturas previstas:</span>
+        <!-- Cuenta cuántas asignaturas hay en la lista -->
+        <span th:text="${#lists.size(asignaturas)}">3</span>
+    </section>
+    <h2>Asignaturas programadas</h2>
+    <div class="lista">
+        <div class="asignatura"
+             th:each="asignatura, iterStat : ${asignaturas}">
+            <div class="info">
+                <!-- muestra el número de cada asignatura empezando por 1 -->
+                <span
+                      th:text="${iterStat.index + 1}">1</span>
+                <!-- muestra el nombre de la asignatura -->
+                <span th:text="${asignatura}">Nombre de la asignatura</span>
+            </div>
+            <!-- muestra la duración que corresponde a cada asignatura -->
+            <span
+                  th:text="|Duración: ${duraciones[iterStat.index]} minutos|">
+                Duración: 55 minutos
+            </span>
+        </div>
+    </div>
+    <section>
+        <h3>Escala de sesiones de estudio</h3>
+        <div >
+            <!-- crea una sesión por cada asignatura -->
+            <span
+                  th:each="numero : ${#numbers.sequence(1, #lists.size(asignaturas))}"
+                  th:text="|Sesión ${numero}|">
+                Sesión 1
+            </span>
+        </div>
+    </section>
+
+</main>
+</body>
+</html>
