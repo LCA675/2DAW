@@ -10,7 +10,7 @@
 <ol>
     <li th:each="material : ${lista}">
         <p th:text="${material[1]}"></p>
-        <a th:href="@{materiales/{codigo}(codigo=${materiales[i][0]})}"></a>
+        <a th:href="@{materiales/{codigo}(codigo=${material[0]})}">Ver material</a>
     </li>
 </ol>
 

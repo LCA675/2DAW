@@ -23,7 +23,7 @@ public class SolicitudPrestamoFormulario {
     @NotNull(message = "Añada una cantidad")
     @Min(value = 1, message = "Lo minimo es 1")
     @Max(value = 3, message = "Lo máximo son 3")
-    private int unidades;
+    private Integer unidades;
 
     @NotNull(message = "Introduzca una fecha de recogida")
     @FutureOrPresent(message = "Tiene que ser una fecha actual o futura")
@@ -44,7 +44,7 @@ public class SolicitudPrestamoFormulario {
 
 
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     public void setNombre(String nombre) {
@@ -52,7 +52,7 @@ public class SolicitudPrestamoFormulario {
     }
 
     public String getEmail() {
-        return email;
+        return this.email;
     }
 
     public void setEmail(String email) {
@@ -68,7 +68,7 @@ public class SolicitudPrestamoFormulario {
     }
 
     public int getUnidades() {
-        return unidades;
+        return this.unidades;
     }
 
     public void setUnidades(int unidades) {

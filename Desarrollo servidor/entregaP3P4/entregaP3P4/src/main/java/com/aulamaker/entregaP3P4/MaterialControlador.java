@@ -38,6 +38,7 @@ public class MaterialControlador {
     public String ficha(@PathVariable String codigo,
                         @RequestParam(required = false, defaultValue = "general") String turno,
                         Model model) {
+
         String[] material = busqueda(codigo);
 
         if (material == null) {
@@ -53,6 +54,12 @@ public class MaterialControlador {
 
     }
 
+    @GetMapping("/solicitud/nueva")
+    public String solicitud(Model model){
+        model.addAttribute("solicitud", new SolicitudPrestamoFormulario());
+        model.addAttribute("materiales", materiales);
+        return "formulario";
+    }
 
 
 }
