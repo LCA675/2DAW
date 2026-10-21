@@ -10,8 +10,17 @@
   <script>
     const literal = "a.b+c?";
     const escapada = literal.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+<<<<<<< Updated upstream:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex/ejercicios/ejercicioregex68.html
     const regex = new RegExp(escapada);
     console.log(escapada);
+=======
+    console.log(escapada);
+    const regex = new RegExp(escapada);
+    console.log(regex.test(literal));
+  </script>");
+    console.log(escapada);
+    const regex = new RegExp(escapada);
+>>>>>>> Stashed changes:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex-def/validar-ejercicios-regex/ejercicios/ejercicioregex68.html
     console.log(regex.test(literal));
   </script>
 </body>

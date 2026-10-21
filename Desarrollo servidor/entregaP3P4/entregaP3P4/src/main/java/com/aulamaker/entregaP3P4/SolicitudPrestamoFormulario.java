@@ -11,7 +11,6 @@ public class SolicitudPrestamoFormulario {
     @Size(max = 60, message = "Nombre muy largo")
     private String nombre;
 
-
     @NotBlank(message = "Escriba un email")
     @Size(max = 120, message = "Correo electrónico muy largo")
     @Email(message = "Formato no valido para el correo electronico")
@@ -27,12 +26,12 @@ public class SolicitudPrestamoFormulario {
 
     @NotNull(message = "Introduzca una fecha de recogida")
     @FutureOrPresent(message = "Tiene que ser una fecha actual o futura")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaRecog;
 
     @NotNull(message = "Introduzca una fecha de devolución")
     @FutureOrPresent(message = "Tiene que ser una fecha actual o futura")
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate fechaDevo;
 
     @NotBlank(message = "Tiene que escribir un motivo")
@@ -67,11 +66,11 @@ public class SolicitudPrestamoFormulario {
         this.material = material;
     }
 
-    public int getUnidades() {
+    public Integer getUnidades() {
         return this.unidades;
     }
 
-    public void setUnidades(int unidades) {
+    public void setUnidades(Integer unidades) {
         this.unidades = unidades;
     }
 

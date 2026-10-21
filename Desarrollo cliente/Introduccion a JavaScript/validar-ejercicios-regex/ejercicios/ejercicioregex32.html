@@ -9,7 +9,11 @@
   <p>Extrae los números que no están seguidos por px de &quot;10px 2em 30px 4em&quot;. Evita que el motor retroceda y devuelva solo una parte de un número seguido por px.</p>
   <script>
     const medidas = "10px 2em 30px 4em";
+<<<<<<< Updated upstream:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex/ejercicios/ejercicioregex32.html
     console.log(medidas.match(/\d+(?!\d|px)/g));
+=======
+    console.log(medidas.match(/\b\d+(?!\d)(?!px)/g));
+>>>>>>> Stashed changes:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex-def/validar-ejercicios-regex/ejercicios/ejercicioregex32.html
   </script>
 </body>
 </html>

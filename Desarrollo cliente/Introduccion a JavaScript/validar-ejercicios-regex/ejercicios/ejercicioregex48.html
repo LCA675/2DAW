@@ -9,7 +9,11 @@
   <p>Usa matchAll para recoger todos los números y sus grupos capturados. Convierte el iterador en un array antes de mostrarlo.</p>
   <script>
     const texto = "p5 q12 r300";
+<<<<<<< Updated upstream:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex/ejercicios/ejercicioregex48.html
     console.log([...texto.matchAll(/(\d+)/g)]);
+=======
+    console.log(Array.from(texto.matchAll(/(\d+)/g), m => [...m]));
+>>>>>>> Stashed changes:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex-def/validar-ejercicios-regex/ejercicios/ejercicioregex48.html
   </script>
 </body>
 </html>

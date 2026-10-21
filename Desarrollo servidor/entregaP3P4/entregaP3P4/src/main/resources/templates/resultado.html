@@ -1,10 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Resultado</title>
 </head>
-<body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 16px;
+    }
 
+    input, select, textarea {
+        width: 100%;
+        padding: 6px;
+        box-sizing: border-box;
+    }
+
+
+</style>
+<body>
+<h1>Resumen de la solicitud</h1>
+<p>Hemos recibido tu solicitud</p>
+
+
+<ul>
+    <li>Nombre: <span th:text="${solicitud.nombre}"></span></li>
+    <li>Email: <span th:text="${solicitud.email}"></span></li>
+    <li>Material: <span th:text="${nombreMaterial}"></span></li>
+    <li>Unidades: <span th:text="${solicitud.unidades}"></span></li>
+    <li>Fecha de recogida: <span th:text="${solicitud.fechaRecog}"></span></li>
+    <li>Fecha de devolución: <span th:text="${solicitud.fechaDevo}"></span></li>
+    <li>Motivo: <span th:text="${solicitud.motivo}"></span></li>
+    <li>Normas aceptadas: <span th:text="${solicitud.acepta}"></span></li>
+    <li>Días del préstamo: <span th:text="${dias}"></span></li>
+    <li>Días-unidad: <span th:text="${diasUnidad}"></span></li>
+</ul>
+<a th:href="@{/}">Volver al catálogo</a>
 </body>
 </html>

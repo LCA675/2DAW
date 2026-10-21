@@ -4,11 +4,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Catalogo</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 16px;
+        color: #222;
+    }
+
+    h1 {
+        color: #1e5aa8;
+    }
+
+    .material {
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 12px;
+        margin-bottom: 12px;
+    }
+
+    .material h2 {
+        margin: 0 0 6px 0;
+        font-size: 1.2em;
+    }
+</style>
 <body>
 <h1>Catalogo</h1>
 <!--Mostramos en una lista ordenada los materiales que hay -->
 <ol>
-    <li th:each="material : ${lista}">
+    <li class="material" th:each="material : ${lista}">
         <p th:text="${material[1]}"></p>
         <a th:href="@{materiales/{codigo}(codigo=${material[0]})}">Ver material</a>
     </li>

@@ -9,7 +9,12 @@
   <p>Comprueba que la cadena completa tenga el formato dos letras mayúsculas, guion y entre tres y cinco dígitos. Si es válida, muestra las partes por separado; si no, muestra null.</p>
   <script>
     const referencia = "AB-2048";
+<<<<<<< Updated upstream:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex/ejercicios/ejercicioregex72.html
     console.log((m => (m ? [m[1], m[2]] : null))(referencia.match(/^([A-Z]{2})-(\d{3,5})$/)));
+=======
+    const m = referencia.match(/^([A-Z]{2})-(\d{3,5})$/);
+    console.log(m ? [m[1], m[2]] : null);
+>>>>>>> Stashed changes:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex-def/validar-ejercicios-regex/ejercicios/ejercicioregex72.html
   </script>
 </body>
 </html>

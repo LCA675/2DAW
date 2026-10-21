@@ -9,7 +9,11 @@
   <p>De cada línea con formato NIVEL: mensaje, extrae el nivel y el mensaje en grupos. Hazlo para todas las líneas y muestra los resultados.</p>
   <script>
     const log = "INFO: iniciado\nERROR: fallo\nWARN: revisar";
+<<<<<<< Updated upstream:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex/ejercicios/ejercicioregex71.html
     console.log([...log.matchAll(/^(?<nivel>\w+): (?<mensaje>.+)$/gm)].map(m => ({ nivel: m.groups.nivel, mensaje: m.groups.mensaje })));
+=======
+    console.log(Array.from(log.matchAll(/(?<nivel>[A-Z]+):\s*(?<mensaje>.+)/g), m => ({ nivel: m.groups.nivel, mensaje: m.groups.mensaje })));
+>>>>>>> Stashed changes:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex-def/validar-ejercicios-regex/ejercicios/ejercicioregex71.html
   </script>
 </body>
 </html>

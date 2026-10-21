@@ -9,7 +9,11 @@
   <p>Con una cadena que contiene varios pares de corchetes, extrae cada contenido por separado. Evita que una coincidencia abarque desde el primer [ hasta el último ].</p>
   <script>
     const texto = "[uno] y [dos]";
+<<<<<<< Updated upstream:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex/ejercicios/ejercicioregex78.html
     console.log(texto.match(/(?<=\[).*?(?=\])/g));
+=======
+    console.log(Array.from(texto.matchAll(/\[(.*?)\]/g), m => m[1]));
+>>>>>>> Stashed changes:Desarrollo cliente/Introduccion a JavaScript/validar-ejercicios-regex-def/validar-ejercicios-regex/ejercicios/ejercicioregex78.html
   </script>
 </body>
 </html>
