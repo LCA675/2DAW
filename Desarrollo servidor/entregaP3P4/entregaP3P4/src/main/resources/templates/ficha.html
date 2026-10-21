@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ficha material</title>
+</head>
+<body>
+<h1 th:text="${nombre}"></h1>
+
+<ul>
+    <li th:text="${codigo}"></li>
+    <li th:text="${descripcion}"></li>
+    <li th:text="${turno}"></li>
+</ul>
+
+<a th:href="@{/solicitud/nueva}">Solicitud nueva</a>
+
+</body>
+</html>
