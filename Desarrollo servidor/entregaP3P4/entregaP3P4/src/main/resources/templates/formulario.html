@@ -34,19 +34,19 @@
 <body>
 
 <h1>Formulario</h1>
-
+<!--Enlazamos con el formulario del dto y el action con la ruta del post-->
 <form th:action="@{/solicitudes}" th:object="${solicitud}" method="post" novalidate>
-
+<!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label >Introduzca su nombre:</label>
     <input type="text" th:field="*{nombre}"><br>
     <span class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label >Introduzca su email:</label>
     <input type="email" th:field="*{email}"><br>
     <span class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label >Introduzca un material:</label>
     <select th:field="*{material}">
         <option value="">-- Elige un material --</option>
@@ -56,36 +56,36 @@
     </select><br>
     <span class="error" th:if="${#fields.hasErrors('material')}" th:errors="*{material}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label> Añada una cantidad:</label>
     <input type="number" th:field="*{unidades}"><br>
     <span class="error" th:if="${#fields.hasErrors('unidades')}" th:errors="*{unidades}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label>Elija la fecha de recogida:</label>
     <input type="date" th:field="*{fechaRecog}"><br>
     <span class="error" th:if="${#fields.hasErrors('fechaRecog')}" th:errors="*{fechaRecog}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label>Elija la fecha de devolución:</label>
     <input type="date" th:field="*{fechaDevo}"><br>
     <span class="error" th:if="${#fields.hasErrors('fechaDevo')}" th:errors="*{fechaDevo}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label>Exponga su motivo:</label>
     <textarea th:field="*{motivo}" placeholder="Escriba su motivo"></textarea><br>
     <span class="error" th:if="${#fields.hasErrors('motivo')}" th:errors="*{motivo}"></span>
     <br><br>
-
+    <!--enlazamos con el campo del dto y guardaremos su su valor-->
     <label>Acepto los términos y condiciones:</label>
     <input type="checkbox" th:field="*{acepta}">
     <span class="error" th:if="${#fields.hasErrors('acepta')}" th:errors="*{acepta}"></span>
     <br><br>
-
+<!--boton para enviar el formulario-->
     <button type="submit">Enviar solicitud</button>
     <br><br>
 </form>
-
+<!--enlace para volver alformulario-->
 <a th:href="@{/}">Volver al catálogo</a>
 
 </body>

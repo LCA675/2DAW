@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th permite usar los atributos th: de Thymeleaf -->
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ficha material</title>
@@ -33,14 +34,15 @@
 
 </style>
 <body>
+<!--Se mostrara el nombre del material al que hemos ido-->
 <h1 th:text="${nombre}"></h1>
-
+<!--Se muestran los datos del material-->
 <ul>
     <li th:text="${codigo}"></li>
     <li th:text="${descripcion}"></li>
     <li th:text="${turno}"></li>
 </ul>
-
+<!-- volver al catalogo-->
 <a th:href="@{/solicitud/nueva}">Solicitud nueva</a>
 
 </body>

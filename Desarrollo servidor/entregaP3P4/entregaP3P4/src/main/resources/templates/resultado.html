@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th permite usar los atributos th: de Thymeleaf -->
+
 <head>
     <meta charset="UTF-8">
     <title>Resultado</title>
@@ -26,6 +28,7 @@
 
 
 <ul>
+<!--    th:text para mostrar los datos de la solicitud que hemos hecho en el formulario-->
     <li>Nombre: <span th:text="${solicitud.nombre}"></span></li>
     <li>Email: <span th:text="${solicitud.email}"></span></li>
     <li>Material: <span th:text="${nombreMaterial}"></span></li>

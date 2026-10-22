@@ -11,16 +11,16 @@ import org.springframework.web.server.ResponseStatusException;
 import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-
+//@Controller declaramos que va a  recibir las peticiones del navegador
 @Controller
 public class MaterialControlador {
-
+//  Lista de materiales guardado en un array con codigo, nombre y descripcion
     private static final String[][] materiales = {
             {"PORTATIL", "Ordenador portatil", "Incluye cargador y una funda"},
             {"MICRO", "Kit de microcontrolador", "Incluye una placa y un cable USB"},
             {"CAMARA", "Camara de documentacion", "Incluye un soporte de mesa"}
     };
-
+//este metodo nos sirve para buscar materiales por su codigo
     private String[] busqueda(String codigo) {
         for (int i = 0; i < materiales.length; i++) {
             if (materiales[i][0].equals(codigo)) {
@@ -29,17 +29,17 @@ public class MaterialControlador {
         }
         return null;
     }
-
+//CUenta los dias de recogida y devolucion y le sumamos 1, devolvemos un long para poder multiplicarlo por las unidades
     private long calcularDias(LocalDate fechaRecog, LocalDate fechaDevo) {
         return ChronoUnit.DAYS.between(fechaRecog, fechaDevo) + 1;
     }
-
+//Manda a la pagina principal
     @GetMapping("/")
     public String catalogo(Model model) {
         model.addAttribute("lista", materiales);
         return "catalogo";
     }
-
+//Ficha del material
     @GetMapping("/materiales/{codigo}")
     public String ficha(@PathVariable String codigo,
                         @RequestParam(required = false, defaultValue = "general") String turno,
@@ -59,7 +59,7 @@ public class MaterialControlador {
         return "ficha";
 
     }
-
+//Va a mostrar el formulario vacio ya que hace falta un dto vacio para poder enlazar los campos
     @GetMapping("/solicitud/nueva")
     public String solicitud(Model model) {
         model.addAttribute("solicitud", new SolicitudPrestamoFormulario());
@@ -90,12 +90,12 @@ public class MaterialControlador {
                 result.rejectValue("fechaDevo", "fechaDevo.invalido", "La fecha de devolucion es incorrecta");
             }
         }
-
+//Si enconctramos algun error volvemos al formulario
         if (result.hasErrors()) {
             model.addAttribute("materiales", materiales);
             return "formulario";
         }
-
+//Aqui la solicituda va a ser valida y tenemos variables locales para poder realizar los calculos
         String[] material = busqueda(form.getMaterial());
         long dias = calcularDias(form.getFechaRecog(), form.getFechaDevo());
         long diasUnidades = dias*form.getUnidades();

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th permite usar los atributos th: de Thymeleaf -->
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Error 404</title>
@@ -9,7 +11,7 @@
 <h1>Error : Material no encontrado</h1>
 
 <p>El material que está buscando no se encuentra en nuestro catálogo</p>
-
+<!--Enlace para volver al catalogo-->
 <a th:href="@{/}">Volver al catálogo</a>
 
 </body>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th permite usar los atributos th: de Thymeleaf -->
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Catalogo</title>
@@ -34,8 +35,8 @@
 <!--Mostramos en una lista ordenada los materiales que hay -->
 <ol>
     <li class="material" th:each="material : ${lista}">
-        <p th:text="${material[1]}"></p>
-        <a th:href="@{materiales/{codigo}(codigo=${material[0]})}">Ver material</a>
+        <p th:text="${material[1]}"></p> <!--se mostrara el nombre como texto de los materiales -->
+        <a th:href="@{materiales/{codigo}(codigo=${material[0]})}">Ver material</a> <!--hacemos una url a la fihca con el codigo de los materiales -->
     </li>
 </ol>
 

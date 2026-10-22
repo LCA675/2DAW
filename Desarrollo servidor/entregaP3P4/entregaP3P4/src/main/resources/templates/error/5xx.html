@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th permite usar los atributos th: de Thymeleaf -->
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Error 5xx</title>
@@ -9,7 +11,7 @@
 <h1>Error del servidor</h1>
 
 <p>Está habiendo problemas con el servidor, intentelo más tarde</p>
-
+<!--enlace para volver al catalogo-->
 <a th:href="@{/}">Volver al catálogo</a>
 
 </body>
