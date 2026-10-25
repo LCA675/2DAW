@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>fragmentos</title>
+</head>
+<body>
+<header th:fragment="cabecera(titulo)">
+    <p th:text="#{centro.nombre}"></p>
+    <h1 th:text="#{${titulo}}"></h1>
+    <p th:text="#{centro.lema}"></p>
+</header>
+
+
+
+
+</body>
+</html>

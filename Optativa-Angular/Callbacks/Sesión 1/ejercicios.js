@@ -13,18 +13,37 @@
 // y comprueba con console.log que dan el mismo resultado.
 // ---------------------------------------------------------------------
 
-function cuadrado(x) { return x * x; }
-function saludo(nombre, hora) { return 'Buenas ' + hora + ', ' + nombre; }
-function crearPunto(x, y) { return { x: x, y: y }; }
-function aleatorio() { return Math.random(); }
+function cuadrado(x) {
+    return x * x;
+}
+
+function saludo(nombre, hora) {
+    return 'Buenas ' + hora + ', ' + nombre;
+}
+
+function crearPunto(x, y) {
+    return {x: x, y: y};
+}
+
+function aleatorio() {
+    return Math.random();
+}
 
 // Tu código aquí:
 
 const cuadrado2 = x => x * x;
-const saludo2 = (nombre, hora) => { return "Buenas " + hora + "," + nombre };
-const crearPunto2 = (x, y) =>   ({ x: x, y: y }) ;
-const aleatorio2 = () => { Math.random() };
+const saludo2 = (nombre, hora) =>
+    "Buenas " + hora + ", " + nombre
+;
+const crearPunto2 = (x, y) => ({x: x, y: y});
+const aleatorio2 = () =>
+    Math.random()
+;
 
+console.log(cuadrado(4), cuadrado2(4));
+console.log(saludo('Ana', 'tardes'), saludo2('Ana', 'tardes'));
+console.log(crearPunto(1, 2), crearPunto2(1, 2));
+console.log(aleatorio2());
 // ---------------------------------------------------------------------
 // EJERCICIO 1.2 · Mi propio forEach y mi propio filter
 // Vas a escribir tus propias versiones de forEach y filter.
@@ -40,7 +59,6 @@ const aleatorio2 = () => { Math.random() };
 const frutas = ['manzana', 'pera', 'uva'];
 const numeros = [3, 8, 1, 12];
 
-const array=()=>{}
 
 // ----- a) miForEach(array, callback) -----
 // Debe hacer lo mismo que frutas.forEach(...): recorrer el array y,
@@ -56,9 +74,13 @@ const array=()=>{}
 // No hace falta return: el callback ya hace el trabajo (imprimir).
 
 const miForEach = (array, callback) => {
-  // Tu código aquí
+    for (let i = 0; i < array.length; i++) {
+        callback(array[i], i);
+    }
 
 };
+
+miForEach(frutas, (fruta, i) => console.log(i + ": " + fruta))
 
 // Prueba (quita las // de la línea de abajo cuando tengas la función):
 // miForEach(frutas, (fruta, i) => console.log(i + ': ' + fruta));
@@ -83,14 +105,18 @@ const miForEach = (array, callback) => {
 // Aquí SÍ hace falta return: quien llama a miFilter quiere el array.
 
 const miFilter = (array, condicion) => {
-  // Tu código aquí
-
+    const resul = [];
+    for (let i = 0; i < array.length; i++) {
+        if (condicion(array[i])) {
+            resul.push((array[i]));
+        }
+    }
+    return resul;
 };
 
 // Pruebas (quita las // cuando tengas la función):
 // console.log(miFilter(numeros, n => n > 5));         // [ 8, 12 ]
 // console.log(miFilter(frutas, f => f.length > 4));   // [ 'manzana' ]
-
 
 
 // ---------------------------------------------------------------------
@@ -101,13 +127,17 @@ const miFilter = (array, condicion) => {
 // setTimeout(..., 0) sí.
 // ---------------------------------------------------------------------
 
-// Mi predicción:
+// Mi predicción: 1,4,5,6,3,2
 // Mi explicación:
+//el foreach se ejecuta entonces el 5 y 6 salen a la vez
+//el timeout deja el callback para despues aunque ponga 0
+//el callback se ejecuta cuando ha terminado todo
 
-/*
+
+
 console.log('1');
 setTimeout(() => console.log('2'), 100);
 setTimeout(() => console.log('3'), 0);
 console.log('4');
 [5, 6].forEach(n => console.log(n));
-*/
+
