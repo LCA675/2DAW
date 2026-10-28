@@ -1,10 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:replace="~{fragmentos :: metadatos('visita.titulo')}"></head>
 <body>
+<header th:replace="~{fragmentos :: cabecera('visita.titulo')}"></header>
 
+<nav th:replace="~{fragmentos :: navegacion(${ruta})}"></nav>
+
+<main class="info">
+    <p class="intro" th:text="#{visita.intro}">Introducción</p>
+    <section>
+        <h2 th:text="#{visita.quien.titulo}">¿Quién puede participar?</h2>
+        <p th:text="#{visita.quien.texto}">Texto</p>
+    </section>
+    <section>
+        <h2 th:text="#{visita.como.titulo}">Cómo inscribirse</h2>
+        <p th:text="#{visita.como.texto}">Texto</p>
+    </section>
+    <section>
+        <h2 th:text="#{visita.plazo.titulo}">Plazos</h2>
+        <p th:text="#{visita.plazo.texto}">Texto</p>
+    </section>
+    <section>
+        <h2 th:text="#{visita.traer.titulo}">Qué necesitas traer</h2>
+        <p th:text="#{visita.traer.texto}">Texto</p>
+    </section>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
 </body>
 </html>

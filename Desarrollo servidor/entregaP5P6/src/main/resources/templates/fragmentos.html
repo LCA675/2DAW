@@ -1,18 +1,59 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:th activa los atributos de Thymeleaf -->
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>fragmentos</title>
+    <title>Fragmentos</title>
 </head>
 <body>
-<header th:fragment="cabecera(titulo)">
-    <p th:text="#{centro.nombre}"></p>
-    <h1 th:text="#{${titulo}}"></h1>
-    <p th:text="#{centro.lema}"></p>
+
+<head th:fragment="metadatos(titulo)">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{${titulo}}">Título</title>
+    <link rel="stylesheet" th:href="@{/css/estilos.css}">
+</head>
+
+<header th:fragment="cabecera(titulo)" class="cabecera">
+    <p class="centro" th:text="#{centro.nombre}">Nombre del centro</p>
+    <h1 th:text="#{${titulo}}">Título de la página</h1>
+    <p class="lema" th:text="#{centro.lema}">Lema del centro</p>
 </header>
 
+<nav th:fragment="navegacion(ruta)" class="navegacion">
+    <br><br>
+    <a th:href="@{/}" th:text="#{nav.inicio}">Inicio</a>
+    <br><br>
+    <a th:href="@{/visita}" th:text="#{nav.visita}">Inscripción</a>
+    <br><br>
 
+    <div class="idiomas">
+        <span th:text="#{nav.idioma}">Idioma</span>:
+        <a th:href="@{${ruta}(lang='es')}" th:text="#{nav.es}">Español</a>
+        <a th:href="@{${ruta}(lang='en')}" th:text="#{nav.en}">English</a>
+    </div>
+</nav>
 
+<article th:fragment="tarjeta(nombre, descripcion, fecha, lugar, duracion)" class="tarjeta">
+    <h2 th:text="#{${nombre}}">Nombre de la actividad</h2>
+    <p th:text="#{${descripcion}}">Descripción</p>
+    <ul class="datos">
+        <li>
+            <strong th:text="#{tarjeta.fecha}">Cuándo</strong>:
+            <span th:text="#{${fecha}}">Fecha</span>
+        </li>
+        <li>
+            <strong th:text="#{tarjeta.lugar}">Dónde</strong>:
+            <span th:text="#{${lugar}}">Lugar</span>
+        </li>
+        <li>
+            <strong th:text="#{tarjeta.duracion}">Duración</strong>:
+            <span th:text="#{${duracion}}">Duración</span>
+        </li>
+    </ul>
+</article>
+
+<footer th:fragment="pie" class="pie">
+    <p th:text="#{pie.texto}">Pie de página</p>
+</footer>
 
 </body>
 </html>

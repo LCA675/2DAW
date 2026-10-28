@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="#{inicio.titulo}">Inicio</title>
+    <link rel="stylesheet" href="/css/estilos.css">
 </head>
-<body>
 
+<body>
+<header th:replace="~{fragmentos :: cabecera('inicio.titulo')}"></header>
+
+<nav th:replace="~{fragmentos :: navegacion(${ruta})}"></nav>
+
+<main class="lista">
+    <th:block th:each="id : ${actividades}">
+        <article th:replace="~{fragmentos :: tarjeta(
+                |centro.${id}.nombre|,
+                |centro.${id}.descripcion|,
+                |centro.${id}.fecha|,
+                |centro.${id}.lugar|,
+                |centro.${id}.duracion|)}"></article>
+    </th:block>
+</main>
+<footer th:replace="~{fragmentos :: pie}"></footer>
 </body>
 </html>

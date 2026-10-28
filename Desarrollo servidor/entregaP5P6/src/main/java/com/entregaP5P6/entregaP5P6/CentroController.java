@@ -15,7 +15,7 @@ public class CentroController {
     @GetMapping("/")
     public String inicio(Model model){
 
-        model.addAttribute("nombre", actividades);
+        model.addAttribute("actividades", actividades);
         model.addAttribute("ruta", "/");
 
         return "inicio";
