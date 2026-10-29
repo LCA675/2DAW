@@ -5,19 +5,20 @@
     <title>Fragmentos</title>
 </head>
 <body>
-
+<!--Datos del head-->
 <head th:fragment="metadatos(titulo)">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="#{${titulo}}">Título</title>
     <link rel="stylesheet" th:href="@{/css/estilos.css}">
 </head>
+<!--Cabecera cque recibira el nombre de la pagina-->
 
 <header th:fragment="cabecera(titulo)" class="cabecera">
     <p class="centro" th:text="#{centro.nombre}">Nombre del centro</p>
     <h1 th:text="#{${titulo}}">Título de la página</h1>
     <p class="lema" th:text="#{centro.lema}">Lema del centro</p>
 </header>
-
+<!--El menu de la pagina-->
 <nav th:fragment="navegacion(ruta)" class="navegacion">
     <br><br>
     <a th:href="@{/}" th:text="#{nav.inicio}">Inicio</a>
@@ -27,11 +28,12 @@
 
     <div class="idiomas">
         <span th:text="#{nav.idioma}">Idioma</span>:
+<!--        Recarga la pagina con el idioma que se escoge-->
         <a th:href="@{${ruta}(lang='es')}" th:text="#{nav.es}">Español</a>
         <a th:href="@{${ruta}(lang='en')}" th:text="#{nav.en}">English</a>
     </div>
 </nav>
-
+<!--Tarjeta con las actividades-->
 <article th:fragment="tarjeta(nombre, descripcion, fecha, lugar, duracion)" class="tarjeta">
     <h2 th:text="#{${nombre}}">Nombre de la actividad</h2>
     <p th:text="#{${descripcion}}">Descripción</p>
@@ -50,7 +52,7 @@
         </li>
     </ul>
 </article>
-
+<!--Pie de pagina-->
 <footer th:fragment="pie" class="pie">
     <p th:text="#{pie.texto}">Pie de página</p>
 </footer>

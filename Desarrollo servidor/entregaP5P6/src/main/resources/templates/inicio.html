@@ -9,11 +9,13 @@
 </head>
 
 <body>
+<!--el replace cambia esta etiqueta por la que tenemos en el fragmento-->
 <header th:replace="~{fragmentos :: cabecera('inicio.titulo')}"></header>
-
+<!--Menu -->
 <nav th:replace="~{fragmentos :: navegacion(${ruta})}"></nav>
 
 <main class="lista">
+<!--    Repite la tarjeta por cada actividad que tengamos-->
     <th:block th:each="id : ${actividades}">
         <article th:replace="~{fragmentos :: tarjeta(
                 |centro.${id}.nombre|,

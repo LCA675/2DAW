@@ -29,7 +29,7 @@ public class IdiomaConfig implements WebMvcConfigurer {
         inter.setParamName("lang");
         return inter;
     }
-
+    // Activa el cambio de idioma en todas las páginas
     @Override
     public void addInterceptors(InterceptorRegistry registro){
         registro.addInterceptor(localeChangeInterceptor());

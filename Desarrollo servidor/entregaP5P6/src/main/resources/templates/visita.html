@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
 <head th:replace="~{fragmentos :: metadatos('visita.titulo')}"></head>
 <body>
+<!--Cabecera igual q a la del incio-->
 <header th:replace="~{fragmentos :: cabecera('visita.titulo')}"></header>
-
+<!--Menu -->
 <nav th:replace="~{fragmentos :: navegacion(${ruta})}"></nav>
-
+<!--informacion necesaria para poder inscribirse-->
 <main class="info">
     <p class="intro" th:text="#{visita.intro}">Introducción</p>
     <section>
