@@ -1,0 +1,44 @@
+
+:root {
+    --color-principal: #db4a30;
+    --color-texto: #161515;
+    --color-destacado: #b1382a;
+    --espaciado: 1.5rem;
+}
+
+#tarjeta {
+    color: var(--color-texto);
+}
+
+.perfil {
+    border: 2px solid var(--color-principal);
+    width: 350px;
+    padding: var(--espaciado);
+    font-family: Arial, sans-serif;
+    border-radius: 8px;
+}
+
+.perfil p {
+    color: #555555;
+}
+
+.perfil .destacado {
+    color: var(--color-destacado);
+    font-weight: bold;
+}
+
+.nombre {
+    font-size: 1.5rem;          
+    color: var(--color-principal);
+}
+
+#tarjeta .nombre {
+    font-size: 2rem;            
+}
+
+/* -----------------------------------------------------------
+   Experimenta y responde:
+He cambiado el orden de las dos reglas y el título sigue
+   igual. El orden solo importaría si las dos reglas
+   tuvieran la misma especificidad.
+   ----------------------------------------------------------- */

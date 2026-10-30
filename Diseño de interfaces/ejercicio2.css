@@ -1,0 +1,50 @@
+
+:root {
+    --color-aviso: #7c1313;
+    --color-fondo: #f7f5f1;
+    --separacion: 1rem;
+}
+
+#avisos {
+    color: var(--color-aviso);         
+    font-family: Georgia, serif;       
+    font-size: 18px;                    
+    padding: 20px;                      
+    background-color: var(--color-fondo); 
+    border: 3px solid var(--color-aviso); 
+}
+
+.aviso {
+    border: inherit;              
+    padding: 1em;                   
+    margin-top: var(--separacion);
+}
+
+
+.aviso p {
+    color: initial;     
+    display: revert;   
+}
+
+.secundario {
+    --color-aviso: #113b6b;
+    color: var(--color-aviso);
+    border-color: var(--color-aviso);
+}
+
+.secundario p {
+    color: unset;  
+}
+
+/* -----------------------------------------------------------
+   Experimenta y responde:
+   - font-family, color o font-size son propiedades heredables:
+     los hijos las reciben automáticamente. border, padding y
+     background NO lo son; por eso hace falta "border: inherit".
+   - unset = inherit si la propiedad es heredable, e initial si
+     no lo es. Como color es heredable, unset recupera el color
+     del padre (.secundario → azul).
+   - initial ≠ revert: display: initial da "inline" (valor de la
+     especificación); display: revert da "block" (hoja de estilos
+     del navegador para <p>).
+   ----------------------------------------------------------- */

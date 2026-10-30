@@ -13,9 +13,21 @@
 //
 // 3. Fíjate en la forma que toma tu código.
 //    ¿Cómo quedaría con diez colores?
+//con diez colores seria mas dificil de leer y de cambiar
 // =====================================================================
 
 const semaforo = document.getElementById('semaforo');
 
 // Tu código aquí:
 
+const cambiarColor = (color, ms, callback) => {semaforo.style.background = color; setTimeout(callback, ms)};
+const ciclo = () => {
+  cambiarColor('green', 3000, () => {
+    cambiarColor('orange', 1000, () => {
+      cambiarColor('red', 3000, () => {
+        ciclo();});
+    });
+  });
+};
+
+ciclo();

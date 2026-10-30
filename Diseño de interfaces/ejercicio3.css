@@ -1,0 +1,47 @@
+
+:root {
+    --color-primario: #793327;              
+    --color-hover: rgb(175, 66, 47);        
+    --color-texto: hsl(37, 17%, 85%);      
+    --color-fondo: hsl(10, 62%, 31%);
+    --espacio: 1rem;
+}
+
+#cabecera {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    padding: var(--espacio) calc(var(--espacio) * 2);
+    font-family: Arial, sans-serif;
+}
+
+#cabecera h1 {
+    margin: 0 0 var(--espacio);
+}
+
+.menu a {
+    display: inline-block;      
+    color: var(--color-texto);
+    text-decoration: none;
+    padding: 0.5em 1.5em;       
+    font-size: 16px;           
+    border-radius: 4px;
+}
+
+.menu .activo {
+    background-color: var(--color-primario);
+    font-weight: bold;
+}
+
+.menu a:hover {
+    background-color: var(--color-hover);
+}
+
+/* -----------------------------------------------------------
+   Experimenta y responde:
+   - Con font-size: 16px → padding 8px 24px.
+   - Con font-size: 24px → padding 12px 36px.
+   Con em el relleno crece en proporción al texto del enlace.
+   Si cambias a "padding: 0.5rem 1.5rem", el relleno queda fijo
+   (8px 24px, según el font-size de <html>) aunque el texto del
+   enlace crezca, y el botón se ve más apretado.
+   ----------------------------------------------------------- */

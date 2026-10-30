@@ -1,0 +1,48 @@
+
+:root {
+    --color-precio: #225825;
+    --color-oferta: #520c0c;
+    --color-borde: #f0ebe5;
+    --espaciado: 1rem;
+}
+
+/* 2. Contenedor fluido con límite */
+#catalogo {
+    width: 90%;             /* se adapta a la ventana */
+    max-width: 70rem;       /* nunca más de 1120px (16px × 70) */
+    margin: 0 auto;         /* centrado horizontal */
+    font-family: Arial, sans-serif;
+    color: #2b2522;
+}
+
+/* 3. Tarjetas */
+.producto {
+    border: 1px solid var(--color-borde);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+
+.producto .descripcion {
+    max-width: 45ch;        
+}
+
+.precio {
+    color: var(--color-precio);
+    font-size: 1.2em;      
+    font-weight: bold;
+}
+
+.producto.oferta {
+    --color-precio: var(--color-oferta);
+}
+
+/* -----------------------------------------------------------
+   Experimenta y responde:
+   - Al estrechar la ventana, #catalogo ocupa el 90 %; en
+     pantallas anchas deja de crecer al llegar a 70rem.
+   - Si pones, por ejemplo, ".producto { font-size: 20px; }",
+     el precio pasa a 24px (1.2 × 20), porque em es relativo al
+     tamaño de fuente del padre. Con rem no cambiaría.
+   ----------------------------------------------------------- */
