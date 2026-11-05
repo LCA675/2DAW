@@ -9,6 +9,11 @@ public class Habilidad {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.nivel = nivel;
+//Si no es alto y no es bajo y no es medio entra en el if
+        if (!nivel.equals("bajo") && !nivel.equals("medio") && !nivel.equals("alto")) {
+            System.out.println("Valor incorrecto, añadiendo nivel medio");
+            this.nivel = "medio";
+        }
     }
 
     public String getNombre() {

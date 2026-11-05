@@ -7,8 +7,11 @@ public class Idioma {
     public Idioma(String nivel, String nombre) {
         this.nivel = nivel;
         this.nombre = nombre;
-
-        if (nivel)
+//Si no es alto y no es bajo y no es medio entra en el if
+        if (!nivel.equals("bajo") && !nivel.equals("medio") && !nivel.equals("alto") ){
+            System.out.println("Valor incorrecto, añadiendo nivel medio");
+            this.nivel = "medio";
+        }
     }
 
     public String getNombre() {
