@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    background-color: #198754;
+    padding: 12px;
+}
+
+.menu a {
+    color: white;
+    margin-right: 12px;
+}
+
+.etiqueta {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    margin: 2px;
+}
+
+.nivel-alto {
+    background-color: #198754;
+    color: white;
+}
+
+.nivel-medio {
+    background-color: #8fd19e;
+    color: black;
+}
+
+.nivel-bajo {
+    background-color: #d1e7dd;
+    color: black;
+}
+
+.estado-encurso {
+    background-color: #40e549;
+    color: black;
+}
+
+.estado-terminado {
+    background-color: #909590;
+    color: black;
+}
+
+.tecnologia {
+    background-color: #e9ecef;
+}
+
+.tarjeta,
+.fila-proyecto {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.tarjeta img {
+    max-width: 100%;
+}
+
+.aviso {
+    background-color: #fff3cd;
+    padding: 8px;
+}
+
+.error {
+    color: red;
+}
+
+.campo {
+    margin-bottom: 8px;
+}
+
+.campo label {
+    display: block;
+}
+
+.oculto {
+    position: absolute;
+    left: -9999px;
+}
+
+@media print {
+    .menu, .pie, .no-imprimir {
+        display: none;
+    }
+}

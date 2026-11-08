@@ -21,7 +21,7 @@ public class ProyectoService {
         ));
 
         Proyecto pr = new Proyecto("Ejercicio 3P", 2026, "Aplicaciones", "Aplicación en Java organizada con Maven que aplica el patrón Factory Method.", "Terminado",
-                list, "https://github.com/LCA675/2DAW/tree/main/Desarrollo%20servidor/Ejercicio%203P", "");
+                list, "https://github.com/LCA675/2DAW/tree/main/Desarrollo%20servidor/Ejercicio%203P", "/img/java.png");
 //PROYECTO 2
         List<String> list1 = List.of(
                 "HTML5",
@@ -36,7 +36,7 @@ public class ProyectoService {
 
 
         Proyecto pr1 = new Proyecto("Javascript", 2026, "Sitios web", "Conjunto de páginas web interactivas creadas con HTML y JavaScript sin librerías. ", "Terminado",
-                list1, "https://github.com/LCA675/2DAW/tree/main/Desarrollo%20cliente/Introduccion%20a%20JavaScript", "");
+                list1, "https://github.com/LCA675/2DAW/tree/main/Desarrollo%20cliente/Introduccion%20a%20JavaScript", "/img/js.jpg");
 
 
         //PROYECTO 3
@@ -73,7 +73,7 @@ public class ProyectoService {
             }
 
             //Comprobamos si cumple las condiciones para que sea guardado
-            if (categoria == null || categoria.equalsIgnoreCase(proyectos.get(i).getCategoria()) || categoria.isEmpty()) {
+            if (categoria == null || categoria.equalsIgnoreCase(proyectos.get(i).getCategoria()) || categoria.isEmpty() || categoria.equalsIgnoreCase("todas")) {
                 cat = true;
             }
             //Si las dos son verdaderas las guardamos en el list

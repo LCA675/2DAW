@@ -1,10 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:replace="~{fragmentos :: cabecera(#{vista.titulo.pagina})}"></head>
 <body>
+<header th:replace="~{fragmentos :: menu}"></header>
 
+<main>
+    <h1 th:text="#{vista.titulo.pagina}">Vista previa</h1>
+
+    <!-- ===== PERFIL: cada dato solo aparece si se ha introducido ===== -->
+    <section>
+        <h2 th:if="${!#strings.isEmpty(form.nombre)}" th:text="${form.nombre}">Nombre</h2>
+        <p th:if="${!#strings.isEmpty(form.titular)}"><strong th:text="${form.titular}">Titular</strong></p>
+        <p th:if="${!#strings.isEmpty(form.presentacion)}" th:text="${form.presentacion}">Presentación</p>
+    </section>
+
+    <!-- ===== CONTACTO: la sección solo aparece si hay ciudad o correo ===== -->
+    <section th:if="${!#strings.isEmpty(form.ciudad) or !#strings.isEmpty(form.correo)}">
+        <h2 th:text="#{cv.contacto}">Contacto</h2>
+        <p th:if="${!#strings.isEmpty(form.ciudad)}">
+            <strong th:text="#{editar.ciudad}">Ciudad</strong>: <span th:text="${form.ciudad}">Sevilla</span>
+        </p>
+        <p th:if="${!#strings.isEmpty(form.correo)}">
+            <a th:href="|mailto:${form.correo}|" th:text="${form.correo}">correo</a>
+        </p>
+    </section>
+
+    <!-- ===== PROYECTOS ===== -->
+    <section>
+        <h2 th:text="#{editar.proyectos}">Proyectos</h2>
+
+        <!-- Sin proyectos (las filas vacías ya las quitó el servidor) -->
+        <p th:if="${#lists.isEmpty(form.proyectos)}" th:text="#{vista.sinproyectos}">
+            Todavía no hay proyectos en este portfolio
+        </p>
+
+        <div class="tarjetas" th:unless="${#lists.isEmpty(form.proyectos)}">
+            <!-- Se recorren los proyectos enviados -->
+            <article class="tarjeta" th:each="proyecto : ${form.proyectos}">
+                <h3 th:text="${proyecto.titulo}">Título</h3>
+                <p>
+                    <span th:text="${proyecto.anio}">2026</span> ·
+                    <span th:text="${proyecto.categoria}">Categoría</span>
+                </p>
+                <!-- th:switch/th:case dentro del fragmento: verde "En curso" o gris "Terminado" -->
+                <span th:replace="~{fragmentos :: estado(${proyecto.estado})}"></span>
+                <p th:text="${proyecto.descripcion}">Descripción</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Vuelve al formulario (empieza de nuevo: no hay persistencia, todo está en memoria) -->
+    <p><a th:href="@{/portfolio/editar}" th:text="#{vista.volver}">Volver a editar</a></p>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
 </body>
 </html>

@@ -16,6 +16,12 @@ public class CVController {
     @Value("${cv.nombre}")
     private String nombre;
 
+    //Si se entra a la raiz de la web (/) se redirige al curriculum, asi no sale error 404
+    @GetMapping("/")
+    public String inicio() {
+        return "redirect:/curriculum";
+    }
+
     @GetMapping("/curriculum")
     public String mostrarCV(Model model) {
         //Datos que no guardo en ninguna clase

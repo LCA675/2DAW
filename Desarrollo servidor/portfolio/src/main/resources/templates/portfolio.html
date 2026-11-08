@@ -1,10 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head th:replace="~{fragmentos :: cabecera(#{portfolio.titulo.pagina})}"></head>
 <body>
+<header th:replace="~{fragmentos :: menu}"></header>
 
+<main>
+    <h1 th:text="#{portfolio.titulo.pagina}">Portfolio</h1>
+
+    <!--formualrio-->
+    <!-- method="get": los filtros viajan en la URL (?categoria=...&anio=...) y filtra el servidor.
+         El "name" de cada campo es igual que el @RequestParam del controlador -->
+    <section>
+        <form th:action="@{/portfolio}" method="get" class="filtro">
+            <div class="campo">
+                <label for="categoria" th:text="#{portfolio.filtro.categoria}">Categoría</label>
+                <select id="categoria" name="categoria">
+                    <!-- value: lo que recibe Java (en español, lo compara filtrarProyectos)
+                         th:text: lo que ve el usuario (traducido)
+                         th:selected: deja marcada la opción que se envió -->
+                    <option value="Todas" th:selected="${categoria == 'Todas'}"
+                            th:text="#{categoria.todas}">Todas</option>
+                    <option value="Aplicaciones" th:selected="${categoria == 'Aplicaciones'}"
+                            th:text="#{categoria.aplicaciones}">Aplicaciones</option>
+                    <option value="Sitios web" th:selected="${categoria == 'Sitios web'}"
+                            th:text="#{categoria.sitiosweb}">Sitios web</option>
+                    <option value="Diseño" th:selected="${categoria == 'Diseño'}"
+                            th:text="#{categoria.diseno}">Diseño</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label for="anio" th:text="#{portfolio.filtro.anio}">Año</label>
+                <!-- th:value conserva el año escrito después de filtrar -->
+                <input type="number" id="anio" name="anio" th:value="${anio}">
+            </div>
+
+            <button type="submit" th:text="#{portfolio.filtrar}">Filtrar</button>
+            <!-- /portfolio sin parámetros = sin filtros -->
+            <a th:href="@{/portfolio}" th:text="#{portfolio.mostrartodos}">Mostrar todos</a>
+        </form>
+    </section>
+
+    <!-- Aviso si el año no se pudo convertir a número (anioInvalido lo calcula el controlador) -->
+    <p th:if="${anioInvalido}" class="aviso" th:text="#{portfolio.anio.invalido}">
+        Introduce un año válido
+    </p>
+
+    <!-- Cantidad de resultados: {0} del mensaje se rellena con "total" -->
+    <p th:text="#{portfolio.resultados(${total})}">Resultados: 3</p>
+    <p th:if="${total == 0}" class="aviso" th:text="#{portfolio.sinresultados}">
+        No se encontraron proyectos
+    </p>
+
+    <!-- ===== TARJETAS: una por cada proyecto que devuelve filtrarProyectos ===== -->
+    <div class="tarjetas">
+        <article class="tarjeta" th:each="proyecto : ${proyectos}">
+
+            <!-- Solo se genera <img> si hay imagen; el alt describe el proyecto -->
+            <img th:if="${!#strings.isEmpty(proyecto.imagen)}"
+                 th:src="@{${proyecto.imagen}}"
+                 th:alt="#{portfolio.imagen.alt(${proyecto.titulo})}">
+
+            <h2 th:text="${proyecto.titulo}">Título</h2>
+            <p>
+                <span th:text="${proyecto.anio}">2026</span> ·
+                <span th:text="${proyecto.categoria}">Categoría</span>
+            </p>
+
+            <!-- Fragmento "estado": dentro hace th:switch/th:case (verde En curso, gris Terminado) -->
+            <span th:replace="~{fragmentos :: estado(${proyecto.estado})}"></span>
+
+            <p th:text="${proyecto.descripcion}">Descripción</p>
+
+            <!-- Sin tecnologías no se genera el apartado. #lists porque tecnologias es un List -->
+            <div th:if="${!#lists.isEmpty(proyecto.tecnologias)}">
+                <h3 th:text="#{portfolio.tecnologias}">Tecnologías</h3>
+                <span class="etiqueta tecnologia"
+                      th:each="tecnologia : ${proyecto.tecnologias}"
+                      th:text="${tecnologia}">Java</span>
+            </div>
+
+            <!-- Sin enlace no se genera un <a> vacío -->
+            <p th:if="${!#strings.isEmpty(proyecto.enlace)}">
+                <a th:href="${proyecto.enlace}" target="_blank" rel="noopener"
+                   th:text="#{portfolio.verproyecto}">Ver proyecto</a>
+            </p>
+        </article>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
 </body>
 </html>
