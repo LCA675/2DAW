@@ -20,67 +20,56 @@ import java.util.Map;
 public class EditarController {
 
     private final FormularioService formularioService;
-    // Es configuración (no datos de una petición), por eso puede ser un atributo final
     private final int maxProyectos;
 
-    // Inyección de dependencias: Spring pasa el service y el valor de portfolio.max-proyectos
+    // Lee el máximo de proyectos de application.properties
     public EditarController(FormularioService formularioService,
                             @Value("${portfolio.max-proyectos}") int maxProyectos) {
         this.formularioService = formularioService;
         this.maxProyectos = maxProyectos;
     }
 
-    // GET: primera vez que se abre la página -> formulario vacío con una fila de proyecto
+    // Muestra el formulario vacío con una fila de proyecto
     @GetMapping
     public String mostrarFormulario(Model model) {
         PortfolioForm form = new PortfolioForm();
         form.getProyectos().add(new ProyectoForm());
-
-        prepararModelo(model, form, new LinkedHashMap<>());
-        return "editar";
+        return mostrarEditar(model, form, new LinkedHashMap<>());
     }
 
-    // POST: todos los botones envían aquí. "accion" dice qué botón se pulsó:
-    // "anadir", "quitar-N" o "preview". Si no llega, se toma "preview".
+    // Todos los botones envían aquí; "accion" dice cuál se ha pulsado (anadir, quitar-N o preview)
     @PostMapping
     public String procesarFormulario(@ModelAttribute("form") PortfolioForm form,
                                      @RequestParam(defaultValue = "preview") String accion,
                                      Model model) {
-        // Variable local: cada petición tiene sus propios errores
-        Map<String, String> errores = new LinkedHashMap<>();
-
-        // Se comprueba el máximo en CADA envío, aunque se hayan añadido filas manipulando el HTML
+        // No se permiten más proyectos del máximo, aunque se modifique el HTML
         if (form.getProyectos().size() > maxProyectos) {
-            errores.put("proyectos", "error.maximo");
-            prepararModelo(model, form, errores);
-            return "editar";
+            return mostrarEditar(model, form, Map.of("proyectos", "error.maximo"));
         }
 
-        if (accion.equals("preview")) {
-            errores = formularioService.validar(form, maxProyectos);
-
-            // Con errores: se vuelve al formulario conservando lo escrito
-            if (!errores.isEmpty()) {
-                prepararModelo(model, form, errores);
-                return "editar";
-            }
-
-            // Sin errores: se quitan las filas vacías y se muestra la vista previa
-            form.setProyectos(formularioService.quitarFilasVacias(form.getProyectos()));
-            model.addAttribute("form", form);
-            return "vista-previa";
+        // Botones de añadir o quitar proyecto
+        if (!accion.equals("preview")) {
+            formularioService.gestionarFilas(form, accion, maxProyectos);
+            return mostrarEditar(model, form, new LinkedHashMap<>());
         }
 
-        // Botones "Añadir proyecto" o "Quitar este proyecto"
-        formularioService.gestionarFilas(form, accion, maxProyectos);
-        prepararModelo(model, form, errores);
-        return "editar";
+        // Si hay errores se vuelve al formulario con lo que se había escrito
+        Map<String, String> errores = formularioService.validar(form);
+        if (!errores.isEmpty()) {
+            return mostrarEditar(model, form, errores);
+        }
+
+        // Sin errores se muestra la vista previa sin las filas vacías
+        formularioService.quitarFilasVacias(form);
+        model.addAttribute("form", form);
+        return "vista-previa";
     }
 
-    // Añade al modelo lo que necesita editar.html (evita repetir estas tres líneas)
-    private void prepararModelo(Model model, PortfolioForm form, Map<String, String> errores) {
+    // Añade al modelo lo que necesita editar.html
+    private String mostrarEditar(Model model, PortfolioForm form, Map<String, String> errores) {
         model.addAttribute("form", form);
         model.addAttribute("errores", errores);
         model.addAttribute("max", maxProyectos);
+        return "editar";
     }
 }

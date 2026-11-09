@@ -1,58 +1,44 @@
 <!DOCTYPE html>
-<!-- th:lang pone el idioma activo (es/en) en la etiqueta html -->
 <html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
-
-<!-- Se sustituye por el fragmento "cabecera" de fragmentos.html.
-     Se le pasa como título el texto traducido de messages -->
 <head th:replace="~{fragmentos :: cabecera(#{cv.titulo.pagina})}"></head>
-
 <body>
-<!-- Menú común a todas las páginas -->
 <header th:replace="~{fragmentos :: menu}"></header>
 
 <main>
-    <!-- perfil -->
+    <!-- Perfil -->
     <section>
         <h2 th:text="#{cv.perfil}">Perfil</h2>
-        <!-- ${nombre} viene de cv.nombre (application.properties) a través del controlador -->
         <h1 th:text="${nombre}">Nombre</h1>
         <p><strong th:text="${titular}">Titular</strong></p>
         <p th:text="${presentacion}">Presentación</p>
     </section>
 
-    <!--contacto-->
-    <!-- El th:if va en la sección entera: si no hay correo no queda ni el título ni el hueco.
-         #strings.isEmpty es true si es null, vacío o solo espacios; el ! lo invierte -->
+    <!-- Contacto, solo si hay correo -->
     <section th:if="${!#strings.isEmpty(correo)}">
         <h2 th:text="#{cv.contacto}">Contacto</h2>
-        <!-- |...| junta texto fijo (mailto:) con una variable -->
         <a th:href="|mailto:${correo}|" th:text="${correo}">correo@ejemplo.com</a>
     </section>
 
-    <!--formacion-->
+    <!-- Formación -->
     <section>
         <h2 th:text="#{cv.formacion}">Formación</h2>
         <ul>
-            <!-- th:each repite el <li> por cada estudio del array -->
             <li th:each="estudio : ${estudios}">
                 <strong th:text="${estudio.titulo}">Título</strong> —
                 <span th:text="${estudio.centro}">Centro</span>
                 (<span th:text="${estudio.anio_comienzo}">2023</span> –
-                <!-- Si sigue en curso, "En curso"; si no (th:unless), el año de finalización -->
-                <span th:if="${estudio.enCurso}" th:text="#{cv.encurso}">En curso</span>
-                <span th:unless="${estudio.enCurso}" th:text="${estudio.anio_final}">2025</span>)
+                <!-- Si sigue en curso pone "En curso" en vez del año final -->
+                <span th:text="${estudio.enCurso} ? #{cv.encurso} : ${estudio.anio_final}">2025</span>)
             </li>
         </ul>
     </section>
 
-<!--    experiencia-->
+    <!-- Experiencia, con un mensaje si no hay ninguna -->
     <section>
         <h2 th:text="#{cv.experiencia}">Experiencia</h2>
-        <!-- Array vacío: se muestra el mensaje -->
         <p th:if="${#arrays.isEmpty(experiencias)}" th:text="#{cv.experiencia.vacia}">
             En busca de mi primera experiencia
         </p>
-        <!-- Array con elementos: se recorren -->
         <ul th:unless="${#arrays.isEmpty(experiencias)}">
             <li th:each="exp : ${experiencias}">
                 <strong th:text="${exp.puesto}">Puesto</strong> —
@@ -63,57 +49,33 @@
         </ul>
     </section>
 
-    <!-- habilidades-->
+    <!-- Habilidades -->
     <section>
         <h2 th:text="#{cv.habilidades}">Habilidades</h2>
         <ul>
             <li th:each="habilidad : ${habilidades}">
-                <!-- th:switch mira el nivel guardado en Java y solo se genera el th:case que coincide.
-                     th:with guarda en "n" el nivel traducido y nivel.texto monta "Nombre — nivel alto" -->
-                <div th:switch="${habilidad.nivel}">
-                    <span th:case="'alto'" class="etiqueta nivel-alto"
-                          th:with="n=#{nivel.alto}"
-                          th:text="#{nivel.texto(${habilidad.nombre}, ${n})}">Habilidad — nivel alto</span>
-                    <span th:case="'medio'" class="etiqueta nivel-medio"
-                          th:with="n=#{nivel.medio}"
-                          th:text="#{nivel.texto(${habilidad.nombre}, ${n})}">Habilidad — nivel medio</span>
-                    <span th:case="'bajo'" class="etiqueta nivel-bajo"
-                          th:with="n=#{nivel.bajo}"
-                          th:text="#{nivel.texto(${habilidad.nombre}, ${n})}">Habilidad — nivel bajo</span>
-                </div>
+                <div th:replace="~{fragmentos :: nivel(${habilidad.nombre}, ${habilidad.nivel})}"></div>
                 <p th:text="${habilidad.descripcion}">Descripción</p>
             </li>
         </ul>
     </section>
 
-    <!-- idiomas -->
-    <!-- Igual que las habilidades: una rama th:case por cada nivel -->
+    <!-- Idiomas -->
     <section>
         <h2 th:text="#{cv.idiomas}">Idiomas</h2>
         <ul>
-            <li th:each="idioma : ${idiomas}" th:switch="${idioma.nivel}">
-                <span th:case="'alto'" class="etiqueta nivel-alto"
-                      th:with="n=#{nivel.alto}"
-                      th:text="#{nivel.texto(${idioma.nombre}, ${n})}">Idioma — nivel alto</span>
-                <span th:case="'medio'" class="etiqueta nivel-medio"
-                      th:with="n=#{nivel.medio}"
-                      th:text="#{nivel.texto(${idioma.nombre}, ${n})}">Idioma — nivel medio</span>
-                <span th:case="'bajo'" class="etiqueta nivel-bajo"
-                      th:with="n=#{nivel.bajo}"
-                      th:text="#{nivel.texto(${idioma.nombre}, ${n})}">Idioma — nivel bajo</span>
+            <li th:each="idioma : ${idiomas}">
+                <span th:replace="~{fragmentos :: nivel(${idioma.nombre}, ${idioma.nivel})}"></span>
             </li>
         </ul>
     </section>
 
-    <!-- imprinir -->
-    <!-- Sin JavaScript no se puede abrir la impresión con un clic: se indica el atajo del navegador.
-         La clase no-imprimir oculta este bloque en el PDF -->
+    <!-- Aviso para imprimir, no sale en el PDF -->
     <p class="no-imprimir">
         <strong th:text="#{cv.imprimir}">Imprimir o guardar como PDF</strong>: Ctrl + P
     </p>
 </main>
 
-<!-- Pie común -->
 <footer th:replace="~{fragmentos :: pie}"></footer>
 </body>
 </html>

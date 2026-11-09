@@ -4,7 +4,6 @@ import com.cv.portfolio.model.PortfolioForm;
 import com.cv.portfolio.model.ProyectoForm;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,15 +13,12 @@ public class FormularioService {
 
     private static final List<String> CATEGORIAS = List.of("Aplicaciones", "Sitios web", "Diseño");
     private static final List<String> ESTADOS = List.of("En curso", "Terminado");
-
     private static final String PATRON_CORREO = "^[\\w.+-]+@[\\w-]+(\\.[\\w-]+)+$";
 
-
-    public Map<String, String> validar(PortfolioForm form, int maxProyectos) {
-        // LinkedHashMap mantiene el orden en que se añaden los errores
+    // Devuelve los errores del formulario: campo -> clave del mensaje de error
+    public Map<String, String> validar(PortfolioForm form) {
         Map<String, String> errores = new LinkedHashMap<>();
 
-        // Datos personales obligatorios
         if (enBlanco(form.getNombre())) {
             errores.put("nombre", "error.obligatorio");
         }
@@ -33,97 +29,73 @@ public class FormularioService {
             errores.put("presentacion", "error.obligatorio");
         }
 
-        // Correo opcional: solo se comprueba el formato si se ha escrito algo
+        // El correo es opcional, solo se comprueba si se ha escrito
         if (!enBlanco(form.getCorreo()) && !form.getCorreo().trim().matches(PATRON_CORREO)) {
             errores.put("correo", "error.correo");
         }
 
-        // Límite de proyectos (aunque se hayan añadido filas manipulando el formulario)
-        if (form.getProyectos().size() > maxProyectos) {
-            errores.put("proyectos", "error.maximo");
-        }
-
-        // Se recorre con índice para saber a qué fila pertenece cada error
         for (int i = 0; i < form.getProyectos().size(); i++) {
             ProyectoForm proyecto = form.getProyectos().get(i);
 
-            // Fila completamente vacía: no es un proyecto, se descarta sin error
+            // Las filas vacías no dan error, luego se quitan
             if (proyecto.estaVacio()) {
                 continue;
             }
 
-            // La clave coincide con el nombre del campo en el HTML: proyectos[0].titulo
-            String prefijo = "proyectos[" + i + "].";
+            // Mismo nombre que el campo del HTML, por ejemplo proyectos[0].titulo
+            String campo = "proyectos[" + i + "].";
 
             if (enBlanco(proyecto.getTitulo())) {
-                errores.put(prefijo + "titulo", "error.obligatorio");
+                errores.put(campo + "titulo", "error.obligatorio");
             }
-
             if (enBlanco(proyecto.getAnio())) {
-                errores.put(prefijo + "anio", "error.obligatorio");
-            } else {
-                // El año llega como texto: se intenta convertir para comprobar que es un número
-                try {
-                    Integer.parseInt(proyecto.getAnio().trim());
-                } catch (NumberFormatException e) {
-                    errores.put(prefijo + "anio", "error.anio");
-                }
+                errores.put(campo + "anio", "error.obligatorio");
+            } else if (!esNumero(proyecto.getAnio())) {
+                errores.put(campo + "anio", "error.anio");
             }
-
-            // Se comprueba null antes: List.of(...).contains(null) lanzaría una excepción
             if (proyecto.getCategoria() == null || !CATEGORIAS.contains(proyecto.getCategoria())) {
-                errores.put(prefijo + "categoria", "error.obligatorio");
+                errores.put(campo + "categoria", "error.obligatorio");
             }
-
             if (proyecto.getEstado() == null || !ESTADOS.contains(proyecto.getEstado())) {
-                errores.put(prefijo + "estado", "error.obligatorio");
+                errores.put(campo + "estado", "error.obligatorio");
             }
-
             if (enBlanco(proyecto.getDescripcion())) {
-                errores.put(prefijo + "descripcion", "error.obligatorio");
+                errores.put(campo + "descripcion", "error.obligatorio");
             }
         }
 
         return errores;
     }
 
+    // Añade una fila o quita la fila indicada en "quitar-N"
     public void gestionarFilas(PortfolioForm form, String accion, int maxProyectos) {
         List<ProyectoForm> proyectos = form.getProyectos();
 
-        if (accion.equals("anadir")) {
-            if (proyectos.size() < maxProyectos) {
-                proyectos.add(new ProyectoForm());
-            }
+        if (accion.equals("anadir") && proyectos.size() < maxProyectos) {
+            proyectos.add(new ProyectoForm());
         } else if (accion.startsWith("quitar-")) {
-            try {
-                // "quitar-2".substring(7) = "2"
-                int indice = Integer.parseInt(accion.substring(7));
-                if (indice >= 0 && indice < proyectos.size()) {
-                    proyectos.remove(indice);
-                }
-            } catch (NumberFormatException e) {
-                // Valor manipulado que no es un número: no se quita nada
+            String indice = accion.substring("quitar-".length());
+            if (esNumero(indice) && Integer.parseInt(indice) < proyectos.size()) {
+                proyectos.remove(Integer.parseInt(indice));
             }
-
-            // Siempre tiene que quedar al menos una fila para seguir editando
+            // Siempre queda al menos una fila
             if (proyectos.isEmpty()) {
                 proyectos.add(new ProyectoForm());
             }
         }
     }
 
-    // Devuelve solo las filas con datos (se usa antes de mostrar la vista previa)
-    public List<ProyectoForm> quitarFilasVacias(List<ProyectoForm> proyectos) {
-        List<ProyectoForm> conDatos = new ArrayList<>();
-        for (ProyectoForm proyecto : proyectos) {
-            if (!proyecto.estaVacio()) {
-                conDatos.add(proyecto);
-            }
-        }
-        return conDatos;
+    // Quita las filas que el usuario no ha rellenado
+    public void quitarFilasVacias(PortfolioForm form) {
+        form.getProyectos().removeIf(ProyectoForm::estaVacio);
     }
 
     private boolean enBlanco(String texto) {
         return texto == null || texto.isBlank();
+    }
+
+    // true si el texto es un número entero positivo (máximo 9 cifras para que quepa en un int)
+    private boolean esNumero(String texto) {
+        return texto.trim().matches("\\d{1,9}");
     }
 }

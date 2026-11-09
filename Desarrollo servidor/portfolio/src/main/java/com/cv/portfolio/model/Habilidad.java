@@ -1,5 +1,7 @@
 package com.cv.portfolio.model;
 
+import java.util.List;
+
 public class Habilidad {
     private String nombre;
     private String descripcion;
@@ -8,12 +10,8 @@ public class Habilidad {
     public Habilidad(String nombre, String descripcion, String nivel) {
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.nivel = nivel;
-//Si no es alto y no es bajo y no es medio entra en el if
-        if (!nivel.equals("bajo") && !nivel.equals("medio") && !nivel.equals("alto")) {
-            System.out.println("Valor incorrecto, añadiendo nivel medio");
-            this.nivel = "medio";
-        }
+        // Si el nivel no es válido se pone medio
+        this.nivel = List.of("bajo", "medio", "alto").contains(nivel) ? nivel : "medio";
     }
 
     public String getNombre() {

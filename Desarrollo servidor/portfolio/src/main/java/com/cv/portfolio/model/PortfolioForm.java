@@ -11,8 +11,7 @@ public class PortfolioForm {
     private String ciudad;
     private String correo;
 
-    // Inicializada para que nunca sea null. Spring va rellenando aquí
-    // lo que llega como proyectos[0].titulo, proyectos[1].titulo...
+    // Lista de proyectos del formulario (proyectos[0], proyectos[1]...)
     private List<ProyectoForm> proyectos = new ArrayList<>();
 
     public PortfolioForm() {

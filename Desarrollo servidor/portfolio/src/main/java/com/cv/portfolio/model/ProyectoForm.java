@@ -11,7 +11,7 @@ public class ProyectoForm {
     public ProyectoForm() {
     }
 
-    // true si los cinco campos están vacíos (fila que el usuario no ha rellenado)
+    // true si la fila no tiene ningún dato
     public boolean estaVacio() {
         return enBlanco(titulo) && enBlanco(anio) && enBlanco(categoria)
                 && enBlanco(estado) && enBlanco(descripcion);

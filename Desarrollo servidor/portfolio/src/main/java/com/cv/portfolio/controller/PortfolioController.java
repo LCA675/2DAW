@@ -8,46 +8,42 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class PortfolioController {
+
     private final ProyectoService proyectoService;
 
-    //creamos un objeto proyectoservice y hacemos su constructor
-    //inyeccion de dependencias
     public PortfolioController(ProyectoService proyectoService) {
         this.proyectoService = proyectoService;
     }
 
-    //El requestparam es para indicar que no son obligatorios, asi no da error cuando se filtra sin filtros
+    // Muestra los proyectos filtrados por categoría y año (los dos filtros son opcionales)
     @GetMapping("/portfolio")
-    public String mostrarPortfolio(Model model, @RequestParam(required = false) String categoria, @RequestParam(required = false) String anio) {
-        Integer annio = null;
-        boolean anio_Invalido = false;
+    public String mostrarPortfolio(@RequestParam(required = false) String categoria,
+                                   @RequestParam(required = false) String anio,
+                                   Locale locale, Model model) {
+        Integer anioNumero = null;
+        boolean anioInvalido = false;
 
-        if (anio != null && !anio.isEmpty()) {
-            //si el año no es válido, se queda en null y no se filtra por año
+        // Si el año no es un número se avisa y no se filtra por año
+        if (anio != null && !anio.isBlank()) {
             try {
-                annio = Integer.parseInt(anio.trim());
+                anioNumero = Integer.parseInt(anio.trim());
             } catch (NumberFormatException e) {
-                // El texto no es un número: se avisa y no se filtra por año
-                anio_Invalido = true;
+                anioInvalido = true;
             }
         }
-        List<Proyecto> todos = proyectoService.obtenerProyectos();
-        List<Proyecto> filtrados = proyectoService.filtrarProyectos(todos, categoria, annio);
 
-        // Si no llega categoría, el selector muestra "Todas"
-        String categoriaSeleccionada = (categoria == null) ? "Todas" : categoria;
+        List<Proyecto> proyectos = proyectoService.filtrarProyectos(
+                proyectoService.obtenerProyectos(locale), categoria, anioNumero);
 
-        model.addAttribute("proyectos", filtrados);
-        model.addAttribute("total", filtrados.size());
-        model.addAttribute("categoria", categoriaSeleccionada);
+        model.addAttribute("proyectos", proyectos);
+        model.addAttribute("total", proyectos.size());
+        model.addAttribute("categoria", categoria);
         model.addAttribute("anio", anio);
-        model.addAttribute("anioInvalido", anio_Invalido);
-        model.addAttribute("categorias", List.of("Todas", "Aplicaciones", "Sitios web", "Diseño"));
-
+        model.addAttribute("anioInvalido", anioInvalido);
         return "portfolio";
     }
-
 }

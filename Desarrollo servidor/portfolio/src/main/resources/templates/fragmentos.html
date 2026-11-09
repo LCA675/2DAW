@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- Este archivo no se muestra solo: guarda trozos que reutilizan las demás plantillas -->
+<!-- Trozos que se reutilizan en las demás páginas -->
 <html xmlns:th="http://www.thymeleaf.org">
 
-<!-- ===== Fragmento 1: <head> común. Recibe el título de la pestaña como parámetro ===== -->
+<!-- Head común, recibe el título de la pestaña -->
 <head th:fragment="cabecera(titulo)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,28 +12,45 @@
 
 <body>
 
-<!-- ===== Fragmento 2: menú de navegación y cambio de idioma ===== -->
+<!-- Menú y cambio de idioma -->
 <header th:fragment="menu" class="menu">
     <nav>
         <a th:href="@{/curriculum}" th:text="#{menu.curriculum}">Currículum</a>
         <a th:href="@{/portfolio}" th:text="#{menu.portfolio}">Portfolio</a>
         <a th:href="@{/portfolio/editar}" th:text="#{menu.editar}">Editar portfolio</a>
     </nav>
-    <!-- '' = misma página actual; solo se añade ?lang=... -->
+    <!-- Recarga la misma página añadiendo ?lang= -->
     <div class="idiomas">
         <a th:href="@{''(lang=es)}" th:text="#{idioma.es}">Español</a>
         <a th:href="@{''(lang=en)}" th:text="#{idioma.en}">English</a>
     </div>
 </header>
 
-<!-- ===== Fragmento 3: etiqueta de estado de un proyecto (verde o gris) ===== -->
-<!-- Se compara con el valor guardado en Java, y se muestra el texto traducido -->
+<!-- Nombre con su nivel traducido, por ejemplo "Inglés — nivel medio" -->
+<span th:fragment="nivel(nombre, nivel)" class="etiqueta" th:classappend="|nivel-${nivel}|"
+      th:with="n=#{${'nivel.' + nivel}}"
+      th:text="#{nivel.texto(${nombre}, ${n})}">Nombre — nivel medio</span>
+
+<!-- Estado del proyecto traducido (verde en curso, gris terminado) -->
 <span th:fragment="estado(valor)" th:switch="${valor}">
     <span th:case="'En curso'" class="etiqueta estado-encurso" th:text="#{estado.encurso}">En curso</span>
     <span th:case="'Terminado'" class="etiqueta estado-terminado" th:text="#{estado.terminado}">Terminado</span>
 </span>
 
-<!-- ===== Fragmento 4: pie de página ===== -->
+<!-- Categoría del proyecto traducida -->
+<span th:fragment="categoria(valor)" th:switch="${valor}">
+    <span th:case="'Aplicaciones'" th:text="#{categoria.aplicaciones}">Aplicaciones</span>
+    <span th:case="'Sitios web'" th:text="#{categoria.sitiosweb}">Sitios web</span>
+    <span th:case="'Diseño'" th:text="#{categoria.diseno}">Diseño</span>
+    <span th:case="*" th:text="${valor}">Otra</span>
+</span>
+
+<!-- Mensaje de error de un campo del formulario, solo si tiene error -->
+<span th:fragment="error(campo)" class="error"
+      th:if="${errores.containsKey(campo)}"
+      th:text="#{${errores.get(campo)}}">Error</span>
+
+<!-- Pie de página -->
 <footer th:fragment="pie" class="pie">
     <p>© 2026 Laura Calle Anguita</p>
 </footer>

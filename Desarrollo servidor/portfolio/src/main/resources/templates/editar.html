@@ -7,47 +7,35 @@
 <main>
     <h1 th:text="#{editar.titulo.pagina}">Editar portfolio</h1>
 
-    <!-- th:object enlaza el formulario con el objeto "form" (PortfolioForm).
-         Dentro, *{campo} equivale a ${form.campo}.
-         novalidate: el navegador no valida, así lo hace el servidor -->
+    <!-- Formulario enlazado con PortfolioForm; la validación la hace el servidor -->
     <form th:action="@{/portfolio/editar}" th:object="${form}" method="post" novalidate>
 
-        <!-- Al pulsar Enter, el navegador usa el PRIMER botón del formulario.
-             Este botón fuera de pantalla va primero para que Enter genere la vista previa
-             en vez de quitar el primer proyecto -->
+        <!-- Botón oculto para que al pulsar Enter se genere la vista previa -->
         <button type="submit" name="accion" value="preview" class="oculto"
                 tabindex="-1" aria-hidden="true">preview</button>
 
-        <!-- Aviso general: solo aparece si hay algún error -->
-        <p th:if="${!errores.isEmpty()}" class="aviso" th:text="#{editar.revisa}">
-            Revisa los campos indicados
-        </p>
+        <p th:if="${!errores.isEmpty()}" class="aviso" th:text="#{editar.revisa}">Revisa los campos indicados</p>
 
-        <!-- ===== DATOS PERSONALES ===== -->
+        <!-- Datos personales -->
         <section>
             <h2 th:text="#{editar.datospersonales}">Datos personales</h2>
 
             <div class="campo">
                 <label for="nombre" th:text="#{editar.nombre} + ' *'">Nombre completo *</label>
-                <!-- th:field pone id, name y value: así se conserva lo escrito al recargar -->
                 <input type="text" th:field="*{nombre}">
-                <!-- Error junto al campo: el mapa guarda la clave y #{${...}} la traduce -->
-                <span class="error" th:if="${errores.containsKey('nombre')}"
-                      th:text="#{${errores['nombre']}}">Error</span>
+                <span th:replace="~{fragmentos :: error('nombre')}"></span>
             </div>
 
             <div class="campo">
                 <label for="titular" th:text="#{editar.titular} + ' *'">Titular *</label>
                 <input type="text" th:field="*{titular}">
-                <span class="error" th:if="${errores.containsKey('titular')}"
-                      th:text="#{${errores['titular']}}">Error</span>
+                <span th:replace="~{fragmentos :: error('titular')}"></span>
             </div>
 
             <div class="campo">
                 <label for="presentacion" th:text="#{editar.presentacion} + ' *'">Presentación *</label>
                 <textarea rows="3" th:field="*{presentacion}"></textarea>
-                <span class="error" th:if="${errores.containsKey('presentacion')}"
-                      th:text="#{${errores['presentacion']}}">Error</span>
+                <span th:replace="~{fragmentos :: error('presentacion')}"></span>
             </div>
 
             <div class="campo">
@@ -58,59 +46,44 @@
             <div class="campo">
                 <label for="correo" th:text="#{editar.correo}">Correo</label>
                 <input type="email" th:field="*{correo}">
-                <span class="error" th:if="${errores.containsKey('correo')}"
-                      th:text="#{${errores['correo']}}">Error</span>
+                <span th:replace="~{fragmentos :: error('correo')}"></span>
             </div>
         </section>
 
-        <!-- ===== PROYECTOS ===== -->
+        <!-- Proyectos -->
         <section>
             <h2 th:text="#{editar.proyectos}">Proyectos</h2>
-
-            <!-- Filas actuales y máximo permitido: {0} = filas, {1} = máximo -->
             <p th:text="#{editar.contador(${#lists.size(form.proyectos)}, ${max})}">Proyectos: 1 de 5</p>
-            <span class="error" th:if="${errores.containsKey('proyectos')}"
-                  th:text="#{${errores['proyectos']}}">Error</span>
+            <span th:replace="~{fragmentos :: error('proyectos')}"></span>
 
-            <!-- Una fila por cada ProyectoForm de la lista.
-                 "fila" es la variable de estado: fila.index empieza en 0 y fila.count en 1 -->
+            <!-- Una fila por proyecto; __${fila.index}__ pone el número de fila: proyectos[0].titulo... -->
             <div class="fila-proyecto" th:each="proyecto, fila : *{proyectos}">
                 <h3 th:text="${fila.count}">1</h3>
 
-                <!-- __${fila.index}__ se sustituye ANTES de evaluar: queda proyectos[0].titulo,
-                     proyectos[1].titulo... Así Spring sabe a qué fila va cada valor -->
                 <div class="campo">
                     <label th:for="|proyectos${fila.index}.titulo|"
                            th:text="#{editar.proyecto.titulo} + ' *'">Título *</label>
                     <input type="text" th:field="*{proyectos[__${fila.index}__].titulo}">
-                    <span class="error"
-                          th:if="${errores.containsKey('proyectos[__${fila.index}__].titulo')}"
-                          th:text="#{${errores['proyectos[__${fila.index}__].titulo']}}">Error</span>
+                    <span th:replace="~{fragmentos :: error('proyectos[__${fila.index}__].titulo')}"></span>
                 </div>
 
                 <div class="campo">
                     <label th:for="|proyectos${fila.index}.anio|"
                            th:text="#{editar.proyecto.anio} + ' *'">Año *</label>
-                    <!-- type="text": es el servidor quien comprueba que sea un número -->
                     <input type="text" inputmode="numeric" th:field="*{proyectos[__${fila.index}__].anio}">
-                    <span class="error"
-                          th:if="${errores.containsKey('proyectos[__${fila.index}__].anio')}"
-                          th:text="#{${errores['proyectos[__${fila.index}__].anio']}}">Error</span>
+                    <span th:replace="~{fragmentos :: error('proyectos[__${fila.index}__].anio')}"></span>
                 </div>
 
                 <div class="campo">
                     <label th:for="|proyectos${fila.index}.categoria|"
                            th:text="#{editar.proyecto.categoria} + ' *'">Categoría *</label>
-                    <!-- th:field en el select deja marcada la opción guardada (gracias a th:value) -->
                     <select th:field="*{proyectos[__${fila.index}__].categoria}">
                         <option value="" th:text="#{editar.seleccionar}">-- Selecciona --</option>
-                        <option th:value="'Aplicaciones'" th:text="#{categoria.aplicaciones}">Aplicaciones</option>
-                        <option th:value="'Sitios web'" th:text="#{categoria.sitiosweb}">Sitios web</option>
-                        <option th:value="'Diseño'" th:text="#{categoria.diseno}">Diseño</option>
+                        <option value="Aplicaciones" th:text="#{categoria.aplicaciones}">Aplicaciones</option>
+                        <option value="Sitios web" th:text="#{categoria.sitiosweb}">Sitios web</option>
+                        <option value="Diseño" th:text="#{categoria.diseno}">Diseño</option>
                     </select>
-                    <span class="error"
-                          th:if="${errores.containsKey('proyectos[__${fila.index}__].categoria')}"
-                          th:text="#{${errores['proyectos[__${fila.index}__].categoria']}}">Error</span>
+                    <span th:replace="~{fragmentos :: error('proyectos[__${fila.index}__].categoria')}"></span>
                 </div>
 
                 <div class="campo">
@@ -118,33 +91,28 @@
                            th:text="#{editar.proyecto.estado} + ' *'">Estado *</label>
                     <select th:field="*{proyectos[__${fila.index}__].estado}">
                         <option value="" th:text="#{editar.seleccionar}">-- Selecciona --</option>
-                        <option th:value="'En curso'" th:text="#{estado.encurso}">En curso</option>
-                        <option th:value="'Terminado'" th:text="#{estado.terminado}">Terminado</option>
+                        <option value="En curso" th:text="#{estado.encurso}">En curso</option>
+                        <option value="Terminado" th:text="#{estado.terminado}">Terminado</option>
                     </select>
-                    <span class="error"
-                          th:if="${errores.containsKey('proyectos[__${fila.index}__].estado')}"
-                          th:text="#{${errores['proyectos[__${fila.index}__].estado']}}">Error</span>
+                    <span th:replace="~{fragmentos :: error('proyectos[__${fila.index}__].estado')}"></span>
                 </div>
 
                 <div class="campo">
                     <label th:for="|proyectos${fila.index}.descripcion|"
                            th:text="#{editar.proyecto.descripcion} + ' *'">Descripción *</label>
                     <textarea rows="2" th:field="*{proyectos[__${fila.index}__].descripcion}"></textarea>
-                    <span class="error"
-                          th:if="${errores.containsKey('proyectos[__${fila.index}__].descripcion')}"
-                          th:text="#{${errores['proyectos[__${fila.index}__].descripcion']}}">Error</span>
+                    <span th:replace="~{fragmentos :: error('proyectos[__${fila.index}__].descripcion')}"></span>
                 </div>
 
-                <!-- Cada fila tiene su botón; el value lleva su índice: quitar-0, quitar-1... -->
+                <!-- Quita esta fila (envía quitar-0, quitar-1...) -->
                 <button type="submit" name="accion" th:value="|quitar-${fila.index}|"
                         th:text="#{editar.quitar}">Quitar este proyecto</button>
             </div>
 
-            <!-- Si no se ha llegado al máximo se muestra el botón... -->
+            <!-- Botón de añadir o aviso si se ha llegado al máximo -->
             <button type="submit" name="accion" value="anadir"
                     th:if="${#lists.size(form.proyectos) < max}"
                     th:text="#{editar.anadir}">Añadir proyecto</button>
-            <!-- ...y si se ha llegado, se oculta y aparece el aviso -->
             <p th:unless="${#lists.size(form.proyectos) < max}" class="aviso"
                th:text="#{editar.limite}">Has alcanzado el límite de proyectos</p>
         </section>
