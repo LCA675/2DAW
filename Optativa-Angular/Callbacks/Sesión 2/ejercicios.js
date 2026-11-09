@@ -51,7 +51,15 @@ function hornearPizza(pizza) {
 
 // Tu código aquí:
 
+hervirAgua(2)
+  .then(mensaje => console.log(mensaje))
+  .catch(error => console.log('Error:', error.message))
+  .finally(() => console.log('Fuego apagado'));
 
+hervirAgua(0)
+  .then(mensaje => console.log(mensaje))
+  .catch(error => console.log('Error:', error.message))
+  .finally(() => console.log('Fuego apagado'));
 
 // ---------------------------------------------------------------------
 // EJERCICIO 2.2 · Mi primera promesa: lanzar una moneda
@@ -66,7 +74,19 @@ function hornearPizza(pizza) {
 
 // Tu código aquí:
 
+function lanzarMoneda() {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() < 0.5) resolve('cara');
+      else reject(new Error('cruz'));
+    }, 500);
+  });
+}
 
+lanzarMoneda()
+  .then(resultado => console.log('Ha salido:', resultado))
+  .catch(error => console.log('Ha salido:', error.message))
+  .finally(() => console.log('Moneda lanzada'));
 
 // ---------------------------------------------------------------------
 // EJERCICIO 2.3 · Comprobar la edad
@@ -78,7 +98,22 @@ function hornearPizza(pizza) {
 
 // Tu código aquí:
 
+function comprobarEdad(edad) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (edad >= 18) resolve('Puede entrar');
+      else reject(new Error('Es menor de edad'));
+    }, 1000);
+  });
+}
 
+comprobarEdad(20)
+  .then(mensaje => console.log('20 años:', mensaje))
+  .catch(error => console.log('20 años:', error.message));
+
+comprobarEdad(15)
+  .then(mensaje => console.log('15 años:', mensaje))
+  .catch(error => console.log('15 años:', error.message));
 
 // ---------------------------------------------------------------------
 // EJERCICIO 2.4 · Encuentra el fallo
@@ -88,6 +123,11 @@ function hornearPizza(pizza) {
 // ---------------------------------------------------------------------
 
 // Por qué falla:
+// El primer then usa llaves { } y no tiene return, así que la función
+// devuelve undefined. Ese undefined es lo que recibe el segundo then,
+// que además no espera a que la pizza termine de hornearse.
+// Solución: devolver (return) la promesa de hornearPizza. Así el
+// siguiente then espera a que se cumpla y recibe su resultado.
 
 /*
 pedirPizza('margarita')
@@ -109,14 +149,28 @@ pedirPizza('margarita')
 
 // Tu código aquí:
 
+function esperar(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+console.log(3);
+esperar(1000)
+  .then(() => {
+    console.log(2);
+    return esperar(1000);
+  })
+  .then(() => {
+    console.log(1);
+    return esperar(1000);
+  })
+  .then(() => console.log('¡Ya!'));
 
 // ---------------------------------------------------------------------
 // EJERCICIO 2.7 · Predice el orden (reto)
 // ANTES de ejecutar, escribe tu predicción. Luego quita /* y */.
 // ---------------------------------------------------------------------
 
-// Mi predicción:
+// Mi predicción: A, D, C, B
 
 /*
 console.log('A');
