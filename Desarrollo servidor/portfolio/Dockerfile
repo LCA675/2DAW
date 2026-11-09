@@ -1,0 +1,12 @@
+# Fase 1: compilar el proyecto con Maven
+FROM maven:3.9-eclipse-temurin-21 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn -q package -DskipTests
+
+# Fase 2: ejecutar solo el .jar con Java
+FROM eclipse-temurin:21-jre
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+CMD ["java", "-jar", "app.jar"]
