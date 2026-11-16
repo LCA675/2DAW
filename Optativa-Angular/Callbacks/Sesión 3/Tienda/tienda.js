@@ -29,24 +29,41 @@ function pintarProducto(producto, unidades) {
 
 function cargarTienda() {
   // TODO 1: vaciar la lista, ocultar el error y mostrar «Cargando…»
+  lista.innerHTML = '';
+  ocultar(error);
+  mostrar(cargando);
 
   // TODO 2: obtener los productos
-
-  // TODO 3: con Promise.all, pedir el stock de TODOS los productos a la vez
-  //         (pista: productos.map(p => obtenerStock(p.id)))
-  //         Necesitarás los productos también en el siguiente then:
-  //         piensa cómo hacérselos llegar.
-
-  // TODO 4: pintar cada producto con su stock usando pintarProducto
-
-  // TODO 5: si algo falla, mostrar el mensaje en #mensajeError y el bloque #error
-
-  // TODO 6: ocultar «Cargando…» en finally
+  return obtenerProductos()
+    // TODO 3: pedir el stock de todos a la vez y pasar también los productos
+    .then(productos => {
+      const peticiones = productos.map(p => obtenerStock(p.id));
+      return Promise.all(peticiones)
+        .then(stocks => ({ productos, stocks }));
+    })
+    // TODO 4: pintar cada producto con su stock
+    .then(({ productos, stocks }) => {
+      productos.forEach((producto, i) => {
+        pintarProducto(producto, stocks[i].unidades);
+      });
+    })
+    // TODO 5: si algo falla, mostrar el error
+    .catch(err => {
+      mensajeError.textContent = err.message;
+      mostrar(error);
+    })
+    // TODO 6: ocultar «Cargando…» siempre
+    .finally(() => {
+      ocultar(cargando);
+    });
 }
+
+btnReintentar.addEventListener('click', cargarTienda);
+
+cargarTienda();
 
 // TODO 7: que el botón «Reintentar» vuelva a llamar a cargarTienda
 
-cargarTienda();
 
 
 // =====================================================
@@ -64,3 +81,16 @@ cargarTienda();
 //    con un servidor real (en AJAX) sí puede tardar más, y entonces
 //    la tienda mostrará el error en lugar de quedarse «Cargando…».
 // =====================================================
+
+function esperar(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// Hace una "carrera" entre la promesa y un temporizador:
+// gana la que termine antes
+function conTimeout(promesa, ms) {
+  const limite = esperar(ms).then(() => {
+    throw new Error('Tiempo agotado');
+  });
+  return Promise.race([promesa, limite]);
+}

@@ -35,12 +35,38 @@ const tarea = (nombre, ms, falla = false) => new Promise((resolve, reject) => {
 // ---------------------------------------------------------------------
 
 // Tu código aquí:
+console.time('serie');
+tarea('A', 1000)
+  .then(resultado => {
+    console.log(resultado);
+    return tarea('B', 1000);
+  })
+  .then(resultado => {
+    console.log(resultado);
+    return tarea('C', 1000);
+  })
+  .then(resultado => {
+    console.log(resultado);
+    console.timeEnd('serie');
+    console.time('paralelo');
+    return Promise.all([
+      tarea('A', 1000),
+      tarea('B', 1000),
+      tarea('C', 1000)
+    ]);
+  })
+  .then(resultados => {
+    console.log(resultados);
+    console.timeEnd('paralelo');
+  })
+  .catch(err => console.error(err.message));
 
 
 // Cuánto tarda cada una y por qué:
 
-
-
+//en serie: unos 3000 ms, porque cada tarea espera a la anterior y los tiempos se suman.
+//en paralelo: unos 1000 ms, porque las tres van a la vez y solo cuenta la más lenta.
+//si las tareas no dependen unas de otras, mejor en paralelo.
 // ---------------------------------------------------------------------
 // EJERCICIO 3.2 · Elige el combinador
 // Para cada situación, escribe qué método usarías
@@ -49,17 +75,21 @@ const tarea = (nombre, ms, falla = false) => new Promise((resolve, reject) => {
 // ---------------------------------------------------------------------
 
 // a) Necesito el usuario, sus pedidos y su carrito para pintar la página.
-//    Método:            Por qué:
+//    Método: Promise.all
+//    Por qué: necesito los tres datos y, si falla uno, no puedo pintar la página.
 //
 // b) Quiero cancelar si el servidor tarda más de 3 segundos.
-//    Método:            Por qué:
+//    Método: Promise.race
+//    Por qué: la petición compite con un temporizador de 3 s y gana la que acabe antes.
 //
 // c) Envío 5 correos y quiero saber cuáles han fallado.
-//    Método:            Por qué:
+//    Método: Promise.allSettled
+//    Por qué: espera a todos aunque alguno falle y dice cuáles han ido bien y cuáles no.
 //
 // d) Tengo tres servidores con los mismos datos y me vale el primero
 //    que responda bien.
-//    Método:            Por qué:
+//    Método: Promise.any
+//    Por qué: se queda con la primera respuesta correcta y no le importan los fallos.
 
 
 
@@ -77,3 +107,17 @@ const tarea = (nombre, ms, falla = false) => new Promise((resolve, reject) => {
 
 // Tu código aquí:
 
+const conTimeout = (promesa, ms) => {
+  const limite = esperar(ms).then(() => {
+    throw new Error('Tiempo agotado');
+  });
+  return Promise.race([promesa, limite]);
+};
+
+conTimeout(tarea('Rápida', 500), 1000)
+  .then(resultado => console.log('Cumplida:', resultado))
+  .catch(err => console.error('Error:', err.message));
+
+conTimeout(tarea('Lenta', 2000), 1000)
+  .then(resultado => console.log('Cumplida:', resultado))
+  .catch(err => console.error('Error:', err.message));
