@@ -1,7 +1,7 @@
 package com.u4p3.lauracalle.servicio;
 
-// Excepción de negocio: se lanza al intentar registrar una caseta cuya calle y número ya existen.
-// Hereda de RuntimeException para no obligar a declarar throws en cada capa.
+
+//Excepcion que he creado para controlar que no se añaden casetas con la misma calle y elmismo numero
 public class CasetaDuplicadaException extends RuntimeException {
 
     public CasetaDuplicadaException(String mensaje) {

@@ -18,6 +18,7 @@ import java.util.List;
 @Controller
 public class CasetaControlador {
 
+    //Listado de todas las calles del recinto que existen
     private static final List<String> CALLES = List.of(
             "Antonio Bienvenida", "Pascual Márquez", "Juan Belmonte", "Joselito el Gallo",
             "Rafael el Gallo", "Gitanillo de Triana", "Costillares",
@@ -30,6 +31,8 @@ public class CasetaControlador {
         this.casetaService = casetaService;
     }
 
+    //Mapping para mostrar la pagina principal donde tenemos un mensaje cuando se añade una caseta con existe
+//    despues prepara los datos de la pagina con un formulario vacio y mostrara la plantilla de recintoFerial.html
     @GetMapping("/")
     public String mostrarRecinto(
             @RequestParam(name = "registrado", defaultValue = "false") boolean registrado, Model model) {
@@ -39,6 +42,7 @@ public class CasetaControlador {
         prepararPagina(model, new NuevaCasetaFormulario());
         return "recintoFerial";
     }
+//el postmapping recibira los datos que se han enviado del formulario y los validara(@valid)
 
     @PostMapping("/casetas")
     public String registrarCaseta(
@@ -46,12 +50,12 @@ public class CasetaControlador {
             BindingResult resultado,
             Model model) {
 
+        //Si hay errores vuelve a mostrar la pagina con los errores y con los datos que habia escrito el usuairo
         if (resultado.hasErrors()) {
-            // Al volver a pintar la página hay que cargar otra vez todos los datos
-            // que necesita la vista; no basta con conservar solo los campos del formulario.
             prepararPagina(model, formulario);
             return "recintoFerial";
         }
+        //Hacemos un try catch para ver si la caseta que esta escribiendo ya existe, en caso de que exista, salta la excepcion que he creado CasetaDuplicadaException
 
         try {
             casetaService.registrar(
@@ -65,16 +69,15 @@ public class CasetaControlador {
                     formulario.getFechaAlta(),
                     formulario.isPublica());
         } catch (CasetaDuplicadaException e) {
+            // vuelve a mostrar la pagina con los errores y con los datos que habia escrito el usuairo
             resultado.rejectValue("numeroCalle", "duplicada", e.getMessage());
             prepararPagina(model, formulario);
             return "recintoFerial";
         }
-
-        // POST/Redirect/GET evita repetir el alta; el aviso viaja en la URL,
-        // sin necesitar una sesión HTTP para un mensaje de una sola página.
+        //Devolvera esto que al devolverse se ejecutar el mostrarRecinto con el mensaje de exito
         return "redirect:/?registrado=true";
     }
-
+//Metodo auxiliar
     private void prepararPagina(Model model, NuevaCasetaFormulario formulario) {
         List<Caseta> casetas = casetaService.obtenerTodos();
         model.addAttribute("casetas", casetas);

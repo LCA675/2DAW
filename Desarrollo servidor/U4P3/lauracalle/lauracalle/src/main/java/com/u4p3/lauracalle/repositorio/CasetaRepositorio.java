@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface CasetaRepositorio extends JpaRepository<Caseta, ClaveCaseta> {
 
-    @Query("SELECT c.calle,c.numeroCalle FROM Caseta c ORDER BY c.calle, c.numeroCalle ASC")
+//    Select para coger todas las casetas ordenadas por la calle y el numero
+    @Query("SELECT c FROM Caseta c ORDER BY c.calle, c.numeroCalle ASC")
     List<Caseta> findAllOrdenadosPorCalle();
 }

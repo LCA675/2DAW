@@ -3,79 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#11130f">
-    <title>Recinto Real de la Feria de Sevilla</title>
+    <meta name="theme-color" content="#b3122e">
+    <title>Recinto Real · Feria de Sevilla</title>
     <link rel="stylesheet" th:href="@{/css/recinto.css}">
 </head>
 <body>
-
 <div class="site-shell">
+
     <header class="topbar">
-        <a class="brand" th:href="@{/}" aria-label="Listado de las casetas">
-            <span class="brand-mark" aria-hidden="true">C!</span>
-            <span>LISTADO<span class="brand-sub">FERIA DE SEVILLA</span></span>
+        <a class="brand" th:href="@{/}" aria-label="Recinto Real, inicio">
+            <span class="brand-mark" aria-hidden="true">F</span>
+            <span>RECINTO REAL<span class="brand-sub">FERIA DE SEVILLA</span></span>
         </a>
-        <div class="connection-status">
-            <span class="status-light" aria-hidden="true"></span>
-            <span>LISTADO DE LAS CASETAS</span>
-        </div>
+        <a class="jump-link" href="#nueva-caseta">+ Añadir caseta</a>
     </header>
 
     <main>
-        <div class="notice success" role="status" th:if="${mensajeExito}" th:text="${mensajeExito}">
-            Caseta añadida al recinto.
-        </div>
+        <section class="intro">
+            <p class="kicker">ALBERO · FAROLILLOS · SEVILLANAS</p>
+            <h1>Las casetas<br><em>del Real.</em></h1>
+            <p class="intro-text">
+                Consulta las casetas registradas en el recinto ferial y da de alta las nuevas.
+            </p>
+        </section>
 
-        <!-- Estado vacío: se muestra solo si todavía no hay casetas registradas -->
-        <p class="empty-state" th:if="${#lists.isEmpty(casetas)}">
-            Todavía no hay casetas en el recinto.
-        </p>
-
-        <article class="game-card" th:each="caseta, iteracion : ${casetas}">
-            <div class="game-art" th:classappend="${'art-variant-' + (iteracion.index % 5)}">
-                <span class="art-index" th:text="${#numbers.formatInteger(iteracion.index + 1, 2)}">01</span>
-                <span class="art-console" th:text="${caseta.calle + ', ' + caseta.numeroCalle}">Calle, 1</span>
-                <span class="art-initial" th:text="${#strings.substring(caseta.nombre, 0, 1)}">C</span>
+        <!-- listado con todas las casetas registradas-->
+        <section class="listado" aria-labelledby="titulo-listado">
+            <div class="section-heading">
+                <h2 id="titulo-listado">
+                    Casetas registradas
+                    <span class="contador" th:text="${#lists.size(casetas)}">0</span>
+                </h2>
             </div>
 
-            <div class="game-info">
-                <div class="game-title-line">
-                    <h3 th:text="${caseta.nombre}">Nombre de la caseta</h3>
-                    <span class="game-price"
-                          th:text="${#numbers.formatDecimal(caseta.metrosCuadrados, 1, 'POINT', 2, 'COMMA')} + ' m²'">0,00 m²</span>
-                </div>
-
-                <div class="game-meta">
-                    <span th:text="${caseta.calle}">Calle</span>
-                    <span class="meta-dot" aria-hidden="true">·</span>
-                    <span th:text="${'Nº ' + caseta.numeroCalle}">Nº 1</span>
-                    <span class="meta-dot" aria-hidden="true">·</span>
-                    <span th:text="${caseta.publica} ? 'Pública' : 'Privada'">Pública</span>
-                    <span class="meta-dot" aria-hidden="true">·</span>
-                    <span th:text="${'Alta: ' + #temporals.format(caseta.fechaAlta, 'dd/MM/yyyy')}">Alta: 01/01/2026</span>
-                </div>
-
-                <!-- Descripción y foto son opcionales: solo se pintan si tienen contenido -->
-                <p class="game-description"
-                   th:if="${!#strings.isEmpty(caseta.descripcion)}"
-                   th:text="${caseta.descripcion}">Descripción</p>
-
-                <img class="game-photo"
-                     th:if="${!#strings.isEmpty(caseta.foto)}"
-                     th:src="${caseta.foto}"
-                     th:alt="${'Foto de ' + caseta.nombre}">
-
-                <div class="stock-line">
-                    <span class="stock-label">NÚMERO DE SOCIOS</span>
-                    <span class="stock-value" th:text="${caseta.numSocios}">0</span>
-                </div>
+            <div class="notice success" role="status" th:if="${mensajeExito}" th:text="${mensajeExito}">
+                Caseta añadida al recinto.
             </div>
-        </article>
 
-        <!-- Aquí irá el formulario de alta -->
+            <div class="empty-state" th:if="${#lists.isEmpty(casetas)}">
+                <h3>El albero está esperando.</h3>
+                <p>Todavía no hay casetas registradas. Añade la primera desde el formulario de abajo.</p>
+            </div>
 
+            <div class="caseta-grid" th:unless="${#lists.isEmpty(casetas)}">
+                <!-- una tarjeta por caseta  -->
+                <article class="caseta-card" th:each="caseta : ${casetas}">
+
+                    <div class="caseta-toldo">
+                        <span class="caseta-direccion"
+                              th:text="${caseta.calle + ', ' + caseta.numeroCalle}">Calle, 1</span>
+                        <span class="caseta-tipo"
+                              th:classappend="${caseta.publica} ? ' publica' : ' privada'"
+                              th:text="${caseta.publica} ? 'PÚBLICA' : 'PRIVADA'">PRIVADA</span>
+                    </div>
+
+                    <div class="caseta-info">
+                        <h3 th:text="${caseta.nombre}">Nombre de la caseta</h3>
+
+                        <!-- la foto y la descripcion solo apareceran si existen ya que son opcionales -->
+                        <img class="caseta-foto"
+                             th:if="${!#strings.isEmpty(caseta.foto)}"
+                             th:src="${caseta.foto}"
+                             th:alt="${'Foto de la caseta ' + caseta.nombre}">
+
+                        <p class="caseta-descripcion"
+                           th:if="${!#strings.isEmpty(caseta.descripcion)}"
+                           th:text="${caseta.descripcion}">Descripción</p>
+
+                        <dl class="caseta-datos">
+                            <div>
+                                <dt>Socios</dt>
+                                <dd th:text="${caseta.numSocios}">0</dd>
+                            </div>
+                            <div>
+                                <dt>Superficie</dt>
+                                <dd th:text="${#numbers.formatDecimal(caseta.metrosCuadrados, 1, 'POINT', 2, 'COMMA')} + ' m²'">
+                                    0,00 m²
+                                </dd>
+                            </div>
+                            <div>
+                                <dt>Alta</dt>
+                                <dd th:text="${#temporals.format(caseta.fechaAlta, 'dd/MM/yyyy')}">01/01/2026</dd>
+                            </div>
+                        </dl>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!--        formulario para añadir una caseta nueva-->
+        <section class="form-section" id="nueva-caseta" aria-labelledby="titulo-form">
+            <div class="form-panel">
+                <p class="kicker">NUEVA CASETA</p>
+                <h2 id="titulo-form">Dar de alta una caseta</h2>
+
+                <!-- th:object enlaza el formulario con el dto del controlador.
+                     novalidate la uso para que la validacion la haga el servidor y no el html -->
+                <form th:action="@{/casetas}" th:object="${nuevaCaseta}" method="post" novalidate>
+
+                    <div class="notice error-summary" role="alert" th:if="${#fields.hasErrors('*')}">
+                        <strong>Hay datos que revisar antes de guardar:</strong>
+                        <ul>
+                            <li th:each="error : ${#fields.errors('*')}" th:text="${error}">Error</li>
+                        </ul>
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="field">
+                            <label for="calle">Calle <span>*</span></label>
+                            <select id="calle" th:field="*{calle}" th:errorclass="invalid">
+                                <option value="">Elige una calle</option>
+                                <option th:each="opcion : ${calles}" th:value="${opcion}" th:text="${opcion}">Calle</option>
+                            </select>
+                            <p class="field-error" th:errors="*{calle}"></p>
+                        </div>
+
+                        <div class="field">
+                            <label for="numeroCalle">Número <span>*</span></label>
+                            <input id="numeroCalle" type="number" th:field="*{numeroCalle}" placeholder="125" th:errorclass="invalid">
+                            <p class="field-error" th:errors="*{numeroCalle}"></p>
+                        </div>
+
+                        <div class="field field-wide">
+                            <label for="nombre">Nombre de la caseta <span>*</span></label>
+                            <input id="nombre" type="text" th:field="*{nombre}" placeholder="Los del Albero" th:errorclass="invalid">
+                            <p class="field-error" th:errors="*{nombre}"></p>
+                        </div>
+
+                        <div class="field">
+                            <label for="numSocios">Número de socios <span>*</span></label>
+                            <input id="numSocios" type="number" th:field="*{numSocios}" placeholder="40" th:errorclass="invalid">
+                            <p class="field-error" th:errors="*{numSocios}"></p>
+                        </div>
+
+                        <div class="field">
+                            <label for="metrosCuadrados">Metros cuadrados <span>*</span></label>
+                            <div class="input-with-suffix">
+                                <input id="metrosCuadrados" type="number" th:field="*{metrosCuadrados}" placeholder="48.50" th:errorclass="invalid">
+                                <span>m²</span>
+                            </div>
+                            <p class="field-error" th:errors="*{metrosCuadrados}"></p>
+                        </div>
+
+                        <div class="field">
+                            <label for="fechaAlta">Fecha de alta <span>*</span></label>
+                            <input id="fechaAlta" type="date" th:field="*{fechaAlta}" th:errorclass="invalid">
+                            <p class="field-error" th:errors="*{fechaAlta}"></p>
+                        </div>
+
+                        <div class="field field-check">
+                            <input id="publica" type="checkbox" th:field="*{publica}">
+                            <label for="publica">Caseta pública</label>
+                        </div>
+
+                        <div class="field field-wide">
+                            <label for="foto">URL de la foto</label>
+                            <input id="foto" type="text" th:field="*{foto}" placeholder="https://..." th:errorclass="invalid">
+                            <p class="field-error" th:errors="*{foto}"></p>
+                        </div>
+
+                        <div class="field field-wide">
+                            <label for="descripcion">Descripción</label>
+                            <textarea id="descripcion" th:field="*{descripcion}" rows="4" placeholder="La caseta fue fundada por..." th:errorclass="invalid"></textarea>
+                            <p class="field-error" th:errors="*{descripcion}"></p>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button class="submit-button" type="submit">Guardar caseta</button>
+                    </div>
+                </form>
+            </div>
+        </section>
     </main>
-</div>
 
+    <footer class="footer">
+        <span>RECINTO REAL · FERIA DE SEVILLA</span>
+        <span>¡Olé!</span>
+    </footer>
+</div>
 </body>
 </html>

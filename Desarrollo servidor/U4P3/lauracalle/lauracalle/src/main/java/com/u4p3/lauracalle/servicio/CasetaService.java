@@ -25,7 +25,7 @@ public class CasetaService {
     public List<Caseta> obtenerTodos() {
         return casetaRepositorio.findAllOrdenadosPorCalle();
     }
-
+//Funcion que guarda los datos de la caseta nueva que vamos a registrar con elformulario
     @Transactional
     public Caseta registrar(
             String calle,
@@ -53,7 +53,7 @@ public class CasetaService {
         cas.setMetrosCuadrados(metrosCuadrados);
         cas.setFechaAlta(fechaAlta);
         cas.setPublica(publica);
-        // save delega en Spring Data JPA; Hibernate traduce la entidad a SQL INSERT.
+
         return casetaRepositorio.save(cas);
     }
 
