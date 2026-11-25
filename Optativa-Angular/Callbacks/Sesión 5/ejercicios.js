@@ -40,15 +40,40 @@ const URL_API = 'https://jsonplaceholder.typicode.com/posts';
 // ---------------------------------------------------------------------
 
 function cargarJson() {
-  // Tu código aquí
+  const caja = document.getElementById('json');
+  caja.textContent = '';
+  axios.get('data/contenido.json')
+    .then(respuesta => {
+      const h3 = document.createElement('h3');
+      h3.textContent = respuesta.data.titulo;
+      const p = document.createElement('p');
+      p.textContent = respuesta.data.mensaje;
+      caja.append(h3, p);
+    })
+    .catch(err => {
+      caja.textContent = err.message;
+    });
 }
 
 function cargarXml() {
-  // Tu código aquí
+  const caja = document.getElementById('xml');
+  caja.textContent = '';
+  axios.get('data/contenido.xml', { responseType: 'text' })
+    .then(respuesta => {
+      const xml = new DOMParser().parseFromString(respuesta.data, 'application/xml');
+      const h3 = document.createElement('h3');
+      h3.textContent = xml.querySelector('titulo').textContent;
+      const p = document.createElement('p');
+      p.textContent = xml.querySelector('mensaje').textContent;
+      caja.append(h3, p);
+    })
+    .catch(err => {
+      caja.textContent = err.message;
+    });
 }
 
 // Pasos que me ahorro con axios:
-
+//me ahorro el primer then con .json() o .text(), axios ya lee y convierte los datosy tampoco hace falta comprobar respuesta.ok
 
 
 // ---------------------------------------------------------------------
@@ -64,11 +89,22 @@ function cargarXml() {
 // ---------------------------------------------------------------------
 
 function probarErrores() {
-  // Tu código aquí
+  const caja = document.getElementById('errores');
+  axios.get('data/noexiste.json')
+    .then(respuesta => {
+      caja.textContent = JSON.stringify(respuesta.data);
+    })
+    .catch(err => {
+      if (err.response) {
+        caja.textContent = `${err.message} · código ${err.response.status}`;
+      } else {
+        caja.textContent = err.message; // error de red: no hay err.response
+      }
+    });
 }
 
-// a)
-// b)
+// a) no hace falta, axios ya manda el 404 al catch él solo
+// b) porque si no hay conexión el servidor no llega a contestar, así que no hay respuesta
 
 
 
@@ -87,22 +123,42 @@ function probarErrores() {
 // ---------------------------------------------------------------------
 
 function enviarConFetch(alumno) {
-  // Tu código aquí
+  return fetch(URL_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(alumno)
+  })
+    .then(respuesta => {
+      if (!respuesta.ok) {
+        throw new Error(`Error ${respuesta.status}`);
+      }
+      return respuesta.json();
+    });
 }
 
 function enviarConAxios(alumno) {
-  // Tu código aquí
+  return axios.post(URL_API, alumno)
+    .then(respuesta => respuesta.data);
 }
 
 function botonFetch() {
-  // Tu código aquí
+  enviarConFetch(leerFormulario())
+    .then(creado => mostrarCreado(creado, 'fetch'))
+    .catch(err => {
+      document.getElementById('post').textContent = err.message;
+    });
 }
 
 function botonAxios() {
-  // Tu código aquí
+  enviarConAxios(leerFormulario())
+    .then(creado => mostrarCreado(creado, 'axios'))
+    .catch(err => {
+      document.getElementById('post').textContent = err.message;
+    });
 }
 
 // Status que devuelve y qué significa:
+// devuelve 201, que significa "creado"
 
 
 
@@ -113,12 +169,13 @@ function botonAxios() {
 
 //                              | fetch                | axios
 // -----------------------------|----------------------|----------------------
-// ¿Hay que instalarlo?         |                      |
-// ¿Cuántos pasos para el JSON? |                      |
-// ¿Dónde están los datos?      |                      |
-// ¿Un 404 va al catch?         |                      |
-// ¿Cómo leo un TXT o un XML?   |                      |
-// ¿Cómo envío un objeto?       |                      |
-// ¿Cómo pongo un tiempo máximo?|                      |
+// ¿Hay que instalarlo?         |           no         |si
+// ¿Cuántos pasos para el JSON? |     dos then         | un then
+// ¿Dónde están los datos?      |     en el 2 then     | en respuesta.data
+// ¿Un 404 va al catch?         |       no             | si
+// ¿Cómo leo un TXT o un XML?   |     respuesta.text() |{ responseType: 'text' }
+// ¿Cómo envío un objeto?       | method, headers y JSON.stringify en el body |axios.post(url, objeto)
+// ¿Cómo pongo un tiempo máximo?| AbortSignal.timeout(ms)  | axios.creat
 //
 // Si tuvieras que elegir uno para un proyecto, ¿cuál y por qué?
+//elegiria axios porque tengo que escribir menos, el 404 ca al catch solo y con axios.create puedo configurar la url y el timeout para todas las peticiones una osla vez
